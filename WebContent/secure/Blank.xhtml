@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" lang="en"  >
+	<h:head>
+
+		<meta charset="utf-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Spice Encounter Monitor</title>
+		<!--STYLESHEET-->
+		<!--=================================================-->
+		<!--Bootstrap Stylesheet [ REQUIRED ]-->
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="css/nifty.min.css" rel="stylesheet" />
+		<!--Nifty Premium Icon [ DEMO ]-->
+		<link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet" />
+
+		<!--Font Awesome [ OPTIONAL ]-->
+		<link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<!--Switchery [ OPTIONAL ]-->
+		<link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
+		<!--Bootstrap Select [ OPTIONAL ]-->
+		<link href="plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+		<!--Bootstrap Table [ OPTIONAL ]-->
+		<link href="plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+		<link href="plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />
+		<!--Demo [ DEMONSTRATION ]-->
+		<link href="css/demo/nifty-demo.css" rel="stylesheet" />
+		<!--SCRIPT-->
+		<!--=================================================-->
+		<!--Page Load Progress Bar [ OPTIONAL ]-->
+		<link href="plugins/pace/pace.min.css" rel="stylesheet" />
+
+		<script src="plugins/pace/pace.min.js"/>
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+	</h:head>
+	<h:body>
+		<f:metadata>
+			<f:viewAction action="#{encounterController.checkF5}" onPostBack="true">
+			</f:viewAction>
+		</f:metadata>
+		<div id="container" class="effect mainnav-lg" style="background-color:transparent">
+
+			<!--NAVBAR-->
+			<!--===================================================-->			
+			<div class="boxed">				
+				<div id="content-container">
+					<div id="page-content">
+						<div class="panel">
+
+
+
+
+							<div class="panel-body">
+
+							</div>
+						</div>
+						<!--===================================================-->
+						<!-- End Striped Table -->
+
+					</div>
+					<!--===================================================-->
+					<!--End page content-->
+				</div>
+				<!--===================================================-->
+				<!--END CONTENT CONTAINER-->
+
+				<!--MAIN NAVIGATION-->
+				<!--===================================================-->
+				<nav id="mainnav-container">
+
+					
+				</nav>
+				<!--===================================================-->
+				<!--END MAIN NAVIGATION-->
+
+				<!--ASIDE-->
+				<!--===================================================-->
+				
+				<!--===================================================-->
+				<!--END ASIDE-->
+			</div>
+
+			<!-- FOOTER -->
+			<!--===================================================-->
+			<footer id="footer">
+				<!-- Visible when footer positions are fixed -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<div class="show-fixed pull-right">
+
+					<ul class="footer-list list-inline">
+
+						<li>
+
+							<p class="text-sm">SEO Proggres</p>
+
+							<div class="progress progress-sm progress-light-base">
+
+								<div style="width: 80%;" class="progress-bar progress-bar-danger" />
+							</div>
+						</li>
+
+						<li>
+
+							<p class="text-sm">Online Tutorial</p>
+
+							<div class="progress progress-sm progress-light-base">
+
+								<div style="width: 80%;" class="progress-bar progress-bar-primary" />
+							</div>
+						</li>
+
+						<li>
+							<button class="btn btn-sm btn-dark btn-active-success">Checkout</button>
+						</li>
+					</ul>
+				</div>
+				<!-- Visible when footer positions are static -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<div class="hide-fixed pull-right pad-rgt">Currently v1.0.0</div>
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				<!-- Remove the class name "show-fixed" and "hide-fixed" to make the content always appears. -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<p class="pad-lft">© 2019 AMR</p>
+			</footer>
+			<!--===================================================-->
+			<!-- END FOOTER -->
+			<!-- SCROLL TOP BUTTON -->
+			<!--===================================================-->
+			<button id="scroll-top" class="btn">
+				<i class="fa fa-chevron-up" />
+			</button>
+			<!--===================================================-->
+		</div>
+		<!--===================================================-->
+		<!-- END OF CONTAINER -->
+
+
+		<!-- SETTINGS - DEMO PURPOSE ONLY -->
+		<!--===================================================-->
+
+		<div id="demo-set" class="demo-set">
+
+			<div class="demo-set-body bg-light">
+
+				<div id="demo-set-alert" />
+
+				<div class="nano" style="height: 520px;">
+
+					<div class="nano-content">
+
+						<div class="panel mar-no">
+							<!--Panel heading-->
+
+							<div class="panel-heading bg-dark">
+
+								<div class="panel-control pull-left">
+
+									<ul class="nav nav-tabs text-lg">
+
+								
+										<li class="active">
+											<a data-toggle="tab" href="#demo-settings-box-4" aria-expanded="false">Color Schemes</a>
+										</li>
+									</ul>
+								</div>
+
+								<h3 class="panel-title"/>
+							</div>
+							<!--Panel body-->
+
+							<div class="panel-body">
+
+								<div class="tab-content">
+
+									
+
+									
+
+									<div id="demo-settings-box-4" class="tab-pane fade active in">
+
+										<div id="demo-theme">
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_a.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-a-light add-tooltip" data-theme="theme-light" data-type="a" data-title="(A). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-navy add-tooltip" data-theme="theme-navy" data-type="a" data-title="(A). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-ocean add-tooltip" data-theme="theme-ocean" data-type="a" data-title="(A). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-lime add-tooltip" data-theme="theme-lime" data-type="a" data-title="(A). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-purple add-tooltip" data-theme="theme-purple" data-type="a" data-title="(A). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dust add-tooltip" data-theme="theme-dust" data-type="a" data-title="(A). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-mint add-tooltip" data-theme="theme-mint" data-type="a" data-title="(A). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-yellow add-tooltip" data-theme="theme-yellow" data-type="a" data-title="(A). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-well-red add-tooltip" data-theme="theme-well-red" data-type="a" data-title="(A). Well Red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-coffee add-tooltip" data-theme="theme-coffee" data-type="a" data-title="(A). Coffee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="a" data-title="(A). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dark add-tooltip" data-theme="theme-dark" data-type="a" data-title="(A). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_b.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-b-light add-tooltip" data-theme="theme-light" data-type="b" data-title="(B). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-navy add-tooltip" data-theme="theme-navy" data-type="b" data-title="(B). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-ocean add-tooltip" data-theme="theme-ocean" data-type="b" data-title="(B). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-lime add-tooltip" data-theme="theme-lime" data-type="b" data-title="(B). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-purple add-tooltip" data-theme="theme-purple" data-type="b" data-title="(B). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dust add-tooltip" data-theme="theme-dust" data-type="b" data-title="(B). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-mint add-tooltip" data-theme="theme-mint" data-type="b" data-title="(B). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-yellow add-tooltip" data-theme="theme-yellow" data-type="b" data-title="(B). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-well-red add-tooltip" data-theme="theme-well-red" data-type="b" data-title="(B). Well red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-coffee add-tooltip" data-theme="theme-coffee" data-type="b" data-title="(B). Coofee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="b" data-title="(B). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dark add-tooltip" data-theme="theme-dark" data-type="b" data-title="(B). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_c.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-c-light add-tooltip" data-theme="theme-light" data-type="c" data-title="(C). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-navy add-tooltip" data-theme="theme-navy" data-type="c" data-title="(C). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-ocean add-tooltip" data-theme="theme-ocean" data-type="c" data-title="(C). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-lime add-tooltip" data-theme="theme-lime" data-type="c" data-title="(C). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-purple add-tooltip" data-theme="theme-purple" data-type="c" data-title="(C). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dust add-tooltip" data-theme="theme-dust" data-type="c" data-title="(C). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-mint add-tooltip" data-theme="theme-mint" data-type="c" data-title="(C). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-yellow add-tooltip" data-theme="theme-yellow" data-type="c" data-title="(C). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-well-red add-tooltip" data-theme="theme-well-red" data-type="c" data-title="(C). Well Red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-coffee add-tooltip" data-theme="theme-coffee" data-type="c" data-title="(C). Coffee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="c" data-title="(C). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dark add-tooltip" data-theme="theme-dark" data-type="c" data-title="(C). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="pad-top pad-hor bord-top clearfix">
+
+					<div class="pull-right">
+						<button id="demo-reset-settings" class="btn btn-primary mar-btm">Reset Settings</button>
+					</div>
+
+					<p class="text-lg text-semibold">Theme Options</p>
+
+					<p class="text-muted text-sm">* All settings will be saved automatically.</p>
+				</div>
+			</div>
+			<button id="demo-set-btn" class="btn btn-sm">
+				<i class="fa fa-cog fa-2x" />
+			</button>
+		</div>
+
+
+		<!--===================================================-->
+		<!-- END SETTINGS -->
+
+		<!--JAVASCRIPT-->
+		<!--=================================================-->
+		<!--jQuery [ REQUIRED ]-->
+
+
+		<!--BootstrapJS [ RECOMMENDED ]-->
+
+		<script src="js/bootstrap.min.js"/>
+		<!--Fast Click [ OPTIONAL ]-->
+
+		<script src="plugins/fast-click/fastclick.min.js"/>
+
+		<!--Nifty Admin [ RECOMMENDED ]-->
+
+		<script src="js/nifty.min.js"/>
+		<!--Switchery [ OPTIONAL ]-->
+
+		<script src="plugins/switchery/switchery.min.js"/>
+		<!--Bootstrap Select [ OPTIONAL ]-->
+
+		<script src="plugins/bootstrap-select/bootstrap-select.min.js"/>
+		<!--DataTables [ OPTIONAL ]-->
+
+		<script src="plugins/datatables/media/js/jquery.dataTables.js"/>
+
+		<script src="plugins/datatables/media/js/dataTables.bootstrap.js"/>
+
+		<script src="plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"/>
+		<!--Demo script [ DEMONSTRATION ]-->
+
+		<script src="js/demo/nifty-demo.js"/>
+		<!--DataTables Sample [ SAMPLE ]-->
+
+		<script src="js/demo/tables-datatables.js"/>
+	<script src="js/demo/dashboard.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"/>
+
+		<script>
+$(document).ready(function() {
+    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+    } );
+	
+var table = $('#demo-dt-basic').dataTable( {
+
+	 responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal( {
+                    header: function ( row ) {
+                        var data = row.data();
+                        return 'Details for '+data[0]+' '+data[1];
+                    }
+                } ),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                    tableClass: 'table'
+                } )
+            }
+        },       "pageLength": 50, "lengthMenu": [ [5,10,15,20,25, 50,100,500,1000, -1], [5,10, 15, 20, 25, 50,100,500,1000, "All"] ],		
+		   "columnDefs": [
+   
+	  { "type": "num-fmt", "targets": 8 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+	   { "type": "num-fmt", "targets": 9 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+	    { "type": "num-fmt", "targets": 10 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+		 { "type": "num-fmt", "targets": 11 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+		  { "type": "num-fmt", "targets": 12 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+		  { "type": "num-fmt", "targets": 17 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},
+		  { "type": "html", "targets": 1  }
+  ], order: [[ 0, "desc" ]],
+		"language": {
+			"paginate": {
+			  "previous": '<i class="fa fa-angle-left"/>',
+			  "next": '<i class="fa fa-angle-right"/>'
+			}
+		}
+	} );})
+				</script>		
+				
+				<script>
+						//<![CDATA[
+		function countdown( elementName, minutes, seconds )
+{
+    var element, endTime, hours, mins, msLeft, time;
+
+    function twoDigits( n )
+    {
+        return (n <= 9 ? "0" + n : n);
+    }
+
+    function updateTimer()
+    {
+        msLeft = endTime - (+new Date);
+        if ( msLeft < 1000 ) {
+            element.innerHTML = "0:00";
+        } else {
+            time = new Date( msLeft );
+            hours = time.getUTCHours();
+            mins = time.getUTCMinutes();
+            element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+            setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+        }
+    }
+
+    element = document.getElementById( elementName );
+    endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+    updateTimer();
+}
+
+<!--countdown( "countdown", 0, 20 );-->
+//]]>
+
+						
+						
+		</script>
+		<!--
+
+    REQUIRED
+    You must include this in your project.
+
+    RECOMMENDED
+    This category must be included but you may modify which plugins or components which should be included in your project.
+
+    OPTIONAL
+    Optional plugins. You may choose whether to include it in your project or not.
+
+    DEMONSTRATION
+    This is to be removed, used for demonstration purposes only. This category must not be included in your project.
+
+    SAMPLE
+    Some script samples which explain how to initialize plugins or components. This category should not be included in your project.
+
+
+    Detailed information and more samples can be found in the document.
+
+    -->
+
+	</h:body>
+</html>
