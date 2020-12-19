@@ -5344,7 +5344,7 @@ a.list-group-item-dark:focus {
   border: 0;
 }
 .tab-base .nav-tabs > li:not(.active) > a {
-  background-color: rgb(178 173 173 / 35%);
+  background-color: rgba(255, 255, 255, 0.35);
   opacity: .7;
   -webkit-transition: opacity, 0.3s;
   transition: opacity, 0.3s;
