@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" lang="en"  >
+	<h:head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Spice Eligibility Monitor</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/nifty.min.css" rel="stylesheet" />
+		<link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet" />
+		<link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
+		<link href="plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+		<link href="plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+		<link href="plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />
+		<link href="css/demo/nifty-demo.css" rel="stylesheet" />
+		<link href="plugins/pace/pace.min.css" rel="stylesheet" />
+		<script src="plugins/pace/pace.min.js"/>
+	</h:head>
+	<h:body>
+		<f:metadata>
+			<f:viewAction action="#{eligibilityFileController.checkF5}" onPostBack="true">
+			</f:viewAction>
+		</f:metadata>
+		<div id="container" class="effect push mainnav-out" style="background-color:transparent">
+			<header id="navbar">
+				<div id="navbar-container" class="boxed">
+					<div class="navbar-header">
+						<a  class="navbar-brand">
+							<img src="img/logo.png" alt="Spice Logo" class="brand-icon" />
+							<div class="brand-title">
+								<span class="brand-text">Spice Monitor</span>
+							</div>
+						</a>
+					</div>
+					<div class="navbar-content clearfix">
+						<ul class="nav navbar-top-links pull-left">
+							<li class="tgl-menu-btn">
+								<a class="mainnav-toggle" href="#">
+									<i class="pli-view-list" />
+								</a>
+							</li>
+							<li class="dropdown">
+								<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+									<i class="pli-bell" />
+									<span class="badge badge-header badge-danger" />
+								</a>
+								<div class="dropdown-menu dropdown-menu-md">
+									<div class="pad-all bord-btm">
+										<p class="text-lg text-semibold mar-no">You have 9 notifications.</p>
+									</div>
+									<div class="pad-all bord-top">
+										<a href="#" class="btn-link text-dark box-block">
+											<i class="fa fa-angle-right fa-lg pull-right" />Show All Notifications										</a>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<ul class="nav navbar-top-links pull-right">
+							<li id="dropdown-user" class="dropdown">
+								<a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+									<span class="pull-right">
+										<img class="img-circle img-user media-object" src="img/av1.png" alt="Profile Picture" />
+									</span>
+									<div class="username hidden-xs">#{eligibilityFileController.userid}</div>
+								</a>
+								<div class="dropdown-menu dropdown-menu-md dropdown-menu-right panel-default">
+									<ul class="head-list">
+										<li>
+											<a href="#">
+												<i class="pli-male icon-lg icon-fw" /> Profile											</a>
+										</li>
+										<li>
+											<a href="#">
+												<span class="badge badge-danger pull-right">9</span>
+												<i class="pli-mail icon-lg icon-fw" /> Messages											</a>
+										</li>
+										<li>
+											<a href="#">
+												<span class="label label-success pull-right">New</span>
+												<i class="pli-gear icon-lg icon-fw" /> Settings											</a>
+										</li>
+										<li>
+											<a href="#">
+												<i class="pli-information icon-lg icon-fw" /> Help											</a>
+										</li>
+										<li>
+											<a href="#">
+												<i class="pli-computer-secure icon-lg icon-fw" /> Lock screen											</a>
+										</li>
+									</ul>
+									<div class="pad-all text-right">
+										<a  class="btn btn-primary">
+											<i class="pli-unlock" /> Logout										</a>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</header>
+			<div class="boxed">
+				<div id="content-container">
+					<div id="page-content">
+						<div class="panel">
+							<div class="panel-heading">
+								<h3 class="panel-title">Eligibility Monitoring Dashboard</h3>
+								<div style="position:absolute;right: 3%;top: 35%;"> Refreshing screen in <i id="countdown">
+									</i>
+								</div>
+							</div>
+							<div class="panel-body">
+								<h:form id="transactionview" onkeypress="if (event.keyCode == 13) { return false; }">
+									<p:remoteCommand name="setFileName" process="@this"																			actionListener="#{eligibilityFileController.setFileName}"																			execute="@none" update=""																			 />
+									<p:remoteCommand name="reprocesstransaction" process="@this"																			actionListener="#{eligibilityFileController.reprocessTransaction}"																			execute="@none" update=""																			 />
+									<p:poll global="false" interval="20" widgetVar="poll"								listener="#{eligibilityFileController.flagforretrieval}"								update=" transactionview" oncomplete="reformatTable();countdown( 'countdown', 0, 20 );"								 />
+									<style type="text/css">														 .ui-confirm-dialog{														 top: 30vh !important;														 left:50vh !important;														}									</style>
+									<script>		function reformatTable() {					var table = $('#demo-dt-basic').dataTable( { destroy: true,	 responsive: {            details: {                display: $.fn.dataTable.Responsive.display.modal( {                    header: function ( row ) {                        var data = row.data();                        return 'Details for '+data[0]+' '+data[1];                    }                } ),                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {                    tableClass: 'table'                } )            }        },       "pageLength": 50, "lengthMenu": [ [5,10,15,20,25, 50,100,500,1000, -1], [5,10, 15, 20, 25, 50,100,500,1000, "All"] ],		   "columnDefs": [	  { "type": "num-fmt", "targets": 9 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},	   { "type": "num-fmt", "targets": 10 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},	    { "type": "num-fmt", "targets": 11 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},		 { "type": "num-fmt", "targets": 12 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},		  { "type": "num-fmt", "targets": 13 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},		  { "type": "num-fmt", "targets": 18 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},		  { "type": "html", "targets": 1  }  ], order: [[ 0, "desc" ]],		"language": {			"paginate": {			  "previous": '<i class="fa fa-angle-left"/>',			  "next": '<i class="fa fa-angle-right"/>'			}		}	} );						}									</script>
+									<script>																function approvetransactionjs(																										planName,fileName) {																  $.niftyNoty({																		icon: 'fa fa-check fa-lg',																		type: 'success',																		message: planName + "'s file " + fileName + " was successfuly approved."																	});																			}									</script>
+									<table id="demo-dt-basic" class="table table-striped table-bordered" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th style="min-width:120px;max-width:120px;width:120px;text-align: center;">Start Time</th>
+												<th style="min-width:60px;max-width:60px;width:60px;text-align: center;">EM Link</th>
+												<th style="text-align: center;font-size:10px;">Replay </th>
+												<th style="text-align: center;">Rejected</th>
+												<th style="text-align: center;">Plan</th>
+												<th style="text-align: center;">Status</th>
+												<th style="min-width:320px;max-width:320px;width:320px;text-align: center;">File Name</th>
+												<th style="text-align: center;"/>
+												<th style="text-align: center;">Duration</th>
+
+												<th style="text-align: center;font-size:10px;">New </th>
+												<th style="text-align: center;font-size:10px;">Old</th>
+												<th style="text-align: center;font-size:10px;">Added</th>
+												<th style="text-align: center;font-size:10px;">Updated</th>
+												<th style="text-align: center;font-size:10px;">Removed</th>
+												<th style="text-align: center;">Approver</th>
+												<th style="text-align: center;font-size:10px;">Change</th>
+												<th style="text-align: center;">Threshold</th>
+												<th style="text-align: center;">SOA Project</th>
+												<th style="text-align: center;">Last Activity</th>
+												<th style="text-align: center;">Members</th>
+												<th style="text-align: center;">SOA Fault</th>
+												<th style="text-align: center;">B2B Fault</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											<p:repeat value="#{eligibilityFileController.eligibilityFileRunRecords}" var="encounterRecord">
+												<tr>
+													<td style="min-width:120px;max-width:120px;width:120px;text-align: center;">
+														<h:outputText id="creationDate" style="" value="#{encounterRecord.creationDate}">
+														</h:outputText>
+														<p:tooltip for="creationDate" position = "top"  style="max-width:20vw;font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 10px;" >Click to see full details of this transaction</p:tooltip>
+													</td>
+																																							<td style="min-width:60px;max-width:60px;width:60px;text-align: center;">
+															<h:outputLink  style="text-align: center;color:#9c9ce7;font-size: 11px;" target="_blank" value="#{encounterRecord.urlLink}" >
+															#{encounterRecord.flowId}
+														</h:outputLink>
+														
+													</td>
+													<td style="font-size: 10px;text-align: center;">
+														<p:commandButton id="replay" value="Replay" update="@none" oncomplete="reprocesstransactionjs('#{encounterRecord.planName}' , '#{encounterRecord.fileName}' )">
+															<p:confirm header="Confirmation" message="Are you sure you want to reprocess the file #{encounterRecord.fileName}?" icon="ui-icon-alert" />
+														</p:commandButton>
+														<p:tooltip for="replay" position = "top"  style="max-width:20vw;font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 10px;" >Click to reprocess the file #{encounterRecord.fileName} under #{encounterRecord.planName}</p:tooltip>
+														<p:confirmDialog id="reprocessConfirm" global="true" >
+															<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+															<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+														</p:confirmDialog>
+														<script>																function reprocesstransactionjs(																										planName,fileName) {												reprocesstransaction([ {																										name : 'planName',																										value : planName																									} ,																									{																										name : 'fileName',																										value : fileName																									}																									]);																  $.niftyNoty({																		icon: 'fa fa-check fa-lg',																		type: 'success',																		message: planName + "'s file " + fileName + " was successfuly reprocessed."																	});																			}														</script>
+													</td>
+
+													<td style="text-align: center;">
+														<ui:fragment rendered="#{encounterRecord.validationsCount gt 0}">
+
+															<h:outputLink style="text-align: center;color:#9c9ce7;font-size: 14px;" target="_blank" value="RejectedDetails.xhtml" id="patientlink5">                                          #{encounterRecord.validationsCount}																					<f:param name="instanceid" value="#{encounterRecord.flowId}">
+																</f:param>
+
+															</h:outputLink>
+
+														</ui:fragment>
+
+
+													</td>
+													<td style="text-align: center;">
+														<h:outputText id="planName" style="" value="#{encounterRecord.planName}">
+														</h:outputText>
+													</td>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'B2B Error'}">
+														<td style="background-color: rgba(255, 0, 0, 0.53);text-align: center;">
+															<h:outputText id="stateText2" style="" value="#{encounterRecord.stateText}">
+															</h:outputText>
+															<p:tooltip for="stateText2" position = "top"  style="max-width:20vw;font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 10px;" >B2B Error Message: #{encounterRecord.b2bError}</p:tooltip>
+														</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Faulted'}">
+														<td style="background-color: rgba(255, 0, 0, 0.53);text-align: center;">
+															<h:outputText id="stateText" style="" value="#{encounterRecord.stateText}">
+															</h:outputText>
+															<p:tooltip for="stateText" position = "top"  style="max-width:20vw;font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 10px;" >Error Message: #{encounterRecord.faultText}</p:tooltip>
+														</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Completed'}">
+														<td style="background-color: #4bca4b;text-align: center;">#{encounterRecord.stateText} </td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Aborted'}">
+														<td style="background-color: #ffc943;text-align: center;">#{encounterRecord.stateText} </td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Stale'}">
+														<td style="background-color: #c3c2c2;text-align: center;">#{encounterRecord.stateText} </td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Running'}">
+														<td style="background-color: #f2f346;text-align: center;">#{encounterRecord.stateText} </td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Needs Approval'}">
+														<td style="background-color: #8f46f3	;text-align: center;color:white;font-size: 10px;">#{encounterRecord.stateText}															<p:commandButton style="font-size: 10px;margin-top: 6px;" value="Approve" update="@none" oncomplete="approvetransactionjs('#{encounterRecord.planName}','#{encounterRecord.fileName}');" actionListener="#{eligibilityFileController.callApprovalService(encounterRecord.planName,encounterRecord.fileName,eligibilityFileController.userid)}">
+																<p:confirm header="Confirmation" message="Are you sure you want to Approve the file #{encounterRecord.fileName}?" icon="ui-icon-alert" />
+															</p:commandButton>
+															<p:confirmDialog id="reprocessConfirm2" global="true" >
+																<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+																<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+															</p:confirmDialog>
+														</td>
+													</ui:fragment>
+													<td style="min-width:320px;max-width:320px;width:320px;text-align: center;font-size: 10px;">
+														<h:outputText id="fileName" style="" value="#{encounterRecord.fileName}">
+														</h:outputText>
+													</td>
+													<td>
+														<p:commandButton id="download" style="font-size: 10px;" icon="fa fa-download" actionListener="#{eligibilityFileController.prepDownload(encounterRecord.fileName,encounterRecord.planName)}"																	ajax="false">
+															<p:fileDownload value="#{eligibilityFileController.download}"/>
+														</p:commandButton>
+														<p:tooltip for="download" position = "top"  style="font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 10px;" >Click to download #{encounterRecord.fileName}</p:tooltip>
+													</td>
+													<td>#{encounterRecord.processingTime} </td>
+
+													<ui:fragment rendered="#{encounterRecord.stateText ne 'Needs Approval'}">
+														<ui:fragment rendered="#{encounterRecord.newCount eq 0 or encounterRecord.newCount eq null}">
+															<td style=""/>
+														</ui:fragment>
+														<ui:fragment rendered="#{encounterRecord.newCount gt 0}">
+															<td style="text-align: center;">#{encounterRecord.newCount}</td>
+														</ui:fragment>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Needs Approval'}">
+														<td style="font-weight:700;color:red;text-align: center;">#{encounterRecord.memberCount}</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText ne 'Needs Approval'}">
+														<ui:fragment rendered="#{encounterRecord.oldCount eq 0 or encounterRecord.oldCount eq null}">
+															<td style=""/>
+														</ui:fragment>
+														<ui:fragment rendered="#{encounterRecord.oldCount gt 0}">
+															<td style="text-align: center;">#{encounterRecord.oldCount}</td>
+														</ui:fragment>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.stateText eq 'Needs Approval'}">
+														<td style="font-weight:700;color:red;text-align: center;">#{encounterRecord.oldCount}</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.added eq 0 or encounterRecord.added eq null}">
+														<td style=""/>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.added gt 0}">
+														<td style="text-align: center;">#{encounterRecord.added}</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.updated eq 0 or encounterRecord.updated eq null}">
+														<td style=""/>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.updated gt 0}">
+														<td style="text-align: center;">#{encounterRecord.updated}</td>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.removed eq 0 or encounterRecord.removed eq null}">
+														<td style=""/>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.removed gt 0}">
+														<td style="text-align: center;">#{encounterRecord.removed}</td>
+													</ui:fragment>
+													<td>#{encounterRecord.approver} </td>
+													<ui:fragment rendered="#{encounterRecord.changePercentage eq 0 or encounterRecord.changePercentage eq null}">
+														<td style=""/>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.changePercentage gt 0}">
+														<td style="text-align: center;">#{encounterRecord.changePercentage}%</td>
+													</ui:fragment>
+													<td style="text-align: center;">#{encounterRecord.threshHoldvalue} </td>
+													<td style="text-align: center;">#{encounterRecord.compositeName} </td>
+													<td style="text-align: center;">#{encounterRecord.modifyDate}</td>
+													<ui:fragment rendered="#{encounterRecord.fileMemberCount eq 0 or encounterRecord.fileMemberCount eq null}">
+														<td style=""/>
+													</ui:fragment>
+													<ui:fragment rendered="#{encounterRecord.fileMemberCount gt 0}">
+														<td style="text-align: center;">#{encounterRecord.fileMemberCount} </td>
+													</ui:fragment>
+													<td style="text-align: center;">#{encounterRecord.faultText} </td>
+													<td style="text-align: center;">#{encounterRecord.b2bError} </td>													
+												</tr>
+											</p:repeat>
+										</tbody>
+									</table>
+								</h:form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<nav id="mainnav-container">
+					<div id="mainnav">
+						<div id="mainnav-menu-wrap">
+							<div class="nano">
+								<div class="nano-content">
+									<ul id="mainnav-menu" class="list-group">
+										<li class="list-header">Navigation</li>
+										<li>
+											<a >
+												<i class="psi-home" />
+												<span class="menu-title">
+													<strong>Log View</strong>
+													<span class="label label-success pull-right">5 New Files</span>
+												</span>
+											</a>
+										</li>
+										<li>
+											<a >
+												<i class="psi-home" />
+												<span class="menu-title">
+													<strong>Plan View</strong>
+												</span>
+											</a>
+										</li>\									</ul>
+									<div class="mainnav-widget">
+										<div class="show-small">
+											<a href="#" data-toggle="menu-widget" data-target="#demo-wg-server">
+												<i class="fa fa-desktop" />
+											</a>
+										</div>
+										<div id="demo-wg-server" class="hide-small mainnav-widget-content">
+											<ul class="list-group">
+												<li class="list-header pad-no pad-ver">Server Status</li>
+												<li class="mar-btm">
+													<span class="label label-primary pull-right">92%</span>
+													<p>Processing Stability</p>
+													<div class="progress progress-sm">
+														<div class="progress-bar progress-bar-primary" style="width: 92%;">
+															<span class="sr-only">92%</span>
+														</div>
+													</div>
+												</li>
+												<li class="mar-btm">
+													<span class="label label-purple pull-right">Running</span>
+													<p>Server Node 1</p>
+													<div class="progress progress-sm">
+														<div class="progress-bar progress-bar-purple" style="width: 100%;">
+															<span class="sr-only">100%</span>
+														</div>
+													</div>
+												</li>
+												<li class="mar-btm">
+													<span class="label label-purple pull-right">Offline</span>
+													<p>Server Node 2</p>
+													<div class="progress progress-sm">
+														<div class="progress-bar progress-bar-purple" style="width: 0%;">
+															<span class="sr-only">0%</span>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+				<aside id="aside-container">
+					<div id="aside">
+						<div class="nano">
+							<div class="nano-content">
+								<ul class="nav nav-tabs nav-justified">
+									<li class="active">
+										<a href="#demo-asd-tab-1" data-toggle="tab">
+											<i class="pli-speech-bubble-7" />
+											<span class="badge badge-purple">7</span>
+										</a>
+									</li>
+									<li>
+										<a href="#demo-asd-tab-2" data-toggle="tab">
+											<i class="pli-information" />
+										</a>
+									</li>
+									<li>
+										<a href="#demo-asd-tab-3" data-toggle="tab">
+											<i class="pli-wrench" />
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane fade in active" id="demo-asd-tab-1">
+										<h4 class="pad-all">
+											<span class="pull-right badge badge-warning">3</span> Family										</h4>
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av2.png" alt="Profile Picture" />
+												</div>
+												<div class="media-body">
+													<p class="mar-no">Stephen Tran</p>
+													<small class="text-muted">Availabe</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av4.png" alt="Profile Picture" />
+												</div>
+												<div class="media-body">
+													<p class="mar-no">Brittany Meyer</p>
+													<small class="text-muted">I think so</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av3.png" alt="Profile Picture" />
+												</div>
+												<div class="media-body">
+													<p class="mar-no">Donald Brown</p>
+													<small class="text-muted">Lorem ipsum dolor sit amet.</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av5.png" alt="Profile Picture" />
+												</div>
+												<div class="media-body">
+													<p class="mar-no">Betty Murphy</p>
+													<small class="text-muted">Bye</small>
+												</div>
+											</a>
+										</div>
+										<hr />
+										<h4 class="pad-hor">
+											<span class="pull-right badge badge-success">Offline</span> Friends										</h4>
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+												<span class="badge badge-purple badge-icon badge-fw pull-left" /> Joey K. Greyson											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-info badge-icon badge-fw pull-left" /> Andrea Branden											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-success badge-icon badge-fw pull-left" /> Johny Juan											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-danger badge-icon badge-fw pull-left" /> Susan Sun											</a>
+										</div>
+										<hr />
+										<h4 class="pad-hor">News</h4>
+										<div class="pad-hor">
+											<p class="text-muted">Lorem ipsum dolor sit amet, consectetuer												<a data-title="45%" class="add-tooltip text-semibold" href="#">adipiscing elit</a>, sed diam nonummy nibh. Lorem ipsum dolor sit amet.											</p>
+											<small class="text-muted">
+												<em>Last Update : Des 12, 2014</em>
+											</small>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="demo-asd-tab-2">
+										<div class="pad-all">
+											<h4>Billing &amp; reports</h4>
+											<p class="text-muted">Get <strong>$5.00</strong> off your next bill by making sure your full payment reaches us before August 5, 2016.</p>
+											<hr />
+											<span class="text-semibold">Amount Due On</span>
+											<p>August 17, 2016</p>
+											<p class="text-2x text-thin">$83.09</p>
+											<button class="btn btn-block btn-success mar-top">Pay Now</button>
+										</div>
+										<hr />
+										<h4 class="pad-hor">Additional Actions</h4>
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+												<i class="pli-information icon-lg icon-fw" /> Service Information</a>
+											<a href="#" class="list-group-item">
+												<i class="pli-mine icon-lg icon-fw" /> Usage Profile</a>
+											<a href="#" class="list-group-item">
+												<span class="label label-info pull-right">New</span>
+												<i class="pli-credit-card-2 icon-lg icon-fw" /> Payment Options</a>
+											<a href="#" class="list-group-item">
+												<i class="pli-support icon-lg icon-fw" /> Message Center</a>
+										</div>
+										<hr />
+										<div class="text-center">
+											<div>
+												<i class="pli-old-telephone icon-3x" />
+											</div>                                        Questions?											<p class="text-lg text-semibold"> (415) 234-53454 </p>
+											<small>
+												<em>We are here 24/7</em>
+											</small>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="demo-asd-tab-3">
+										<ul class="list-group bg-trans">
+											<li class="pad-top list-header">
+												<h4>Account Settings</h4>
+											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+												<p>Show my personal status</p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+												<p>Show offline contact</p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" />
+												</div>
+												<p>Invisible mode </p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+										</ul>
+										<hr />
+										<ul class="list-group pad-btm bg-trans">
+											<li class="list-header">
+												<h4>Public Settings</h4>
+											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>                                            Online status											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>                                            Show offline contact											</li>
+											<li class="list-group-item">
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" />
+												</div>                                            Show my device icon											</li>
+										</ul>
+										<hr />
+										<h4 class="pad-hor">Task Progress</h4>
+										<div class="pad-all">
+											<p>Upgrade Progress</p>
+											<div class="progress progress-sm">
+												<div class="progress-bar progress-bar-success" style="width: 15%;">
+													<span class="sr-only">15%</span>
+												</div>
+											</div>
+											<small class="text-muted">15% Completed</small>
+										</div>
+										<div class="pad-hor">
+											<p>Database</p>
+											<div class="progress progress-sm">
+												<div class="progress-bar progress-bar-danger" style="width: 75%;">
+													<span class="sr-only">75%</span>
+												</div>
+											</div>
+											<small class="text-muted">17/23 Database</small>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</aside>
+			</div>
+			<footer id="footer">
+				<div class="show-fixed pull-right">
+					<ul class="footer-list list-inline">
+						<li>
+							<p class="text-sm">SEO Proggres</p>
+							<div class="progress progress-sm progress-light-base">
+								<div style="width: 80%;" class="progress-bar progress-bar-danger" />
+							</div>
+						</li>
+						<li>
+							<p class="text-sm">Online Tutorial</p>
+							<div class="progress progress-sm progress-light-base">
+								<div style="width: 80%;" class="progress-bar progress-bar-primary" />
+							</div>
+						</li>
+						<li>
+							<button class="btn btn-sm btn-dark btn-active-success">Checkout</button>
+						</li>
+					</ul>
+				</div>
+				<div class="hide-fixed pull-right pad-rgt">Currently v1.0.0</div>
+				<p class="pad-lft">© 2019 AMR</p>
+			</footer>
+			<button id="scroll-top" class="btn">
+				<i class="fa fa-chevron-up" />
+			</button>
+		</div>
+		<div id="demo-set" class="demo-set">
+			<div class="demo-set-body bg-light">
+				<div id="demo-set-alert" />
+				<div class="nano" style="height: 520px;">
+					<div class="nano-content">
+						<div class="panel mar-no">
+							<div class="panel-heading bg-dark">
+								<div class="panel-control pull-left">
+									<ul class="nav nav-tabs text-lg">
+										<li class="active">
+											<a data-toggle="tab" href="#demo-settings-box-4" aria-expanded="false">Color Schemes</a>
+										</li>
+									</ul>
+								</div>
+								<h3 class="panel-title"/>
+							</div>
+							<div class="panel-body">
+								<div class="tab-content">
+									<div id="demo-settings-box-4" class="tab-pane fade active in">
+										<div id="demo-theme">
+											<div class="row">
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_a.png" alt="" />
+												</div>
+												<div class="col-xs-8">
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-a-light add-tooltip" data-theme="theme-light" data-type="a" data-title="(A). Light">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-navy add-tooltip" data-theme="theme-navy" data-type="a" data-title="(A). Navy Blue">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-ocean add-tooltip" data-theme="theme-ocean" data-type="a" data-title="(A). Ocean">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-lime add-tooltip" data-theme="theme-lime" data-type="a" data-title="(A). Lime">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-purple add-tooltip" data-theme="theme-purple" data-type="a" data-title="(A). Purple">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dust add-tooltip" data-theme="theme-dust" data-type="a" data-title="(A). Dust">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-mint add-tooltip" data-theme="theme-mint" data-type="a" data-title="(A). Mint">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-yellow add-tooltip" data-theme="theme-yellow" data-type="a" data-title="(A). Yellow">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-well-red add-tooltip" data-theme="theme-well-red" data-type="a" data-title="(A). Well Red">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-coffee add-tooltip" data-theme="theme-coffee" data-type="a" data-title="(A). Coffee">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="a" data-title="(A). Prickly pear">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dark add-tooltip" data-theme="theme-dark" data-type="a" data-title="(A). Dark">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_b.png" alt="" />
+												</div>
+												<div class="col-xs-8">
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-b-light add-tooltip" data-theme="theme-light" data-type="b" data-title="(B). Light">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-navy add-tooltip" data-theme="theme-navy" data-type="b" data-title="(B). Navy Blue">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-ocean add-tooltip" data-theme="theme-ocean" data-type="b" data-title="(B). Ocean">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-lime add-tooltip" data-theme="theme-lime" data-type="b" data-title="(B). Lime">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-purple add-tooltip" data-theme="theme-purple" data-type="b" data-title="(B). Purple">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dust add-tooltip" data-theme="theme-dust" data-type="b" data-title="(B). Dust">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-mint add-tooltip" data-theme="theme-mint" data-type="b" data-title="(B). Mint">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-yellow add-tooltip" data-theme="theme-yellow" data-type="b" data-title="(B). Yellow">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-well-red add-tooltip" data-theme="theme-well-red" data-type="b" data-title="(B). Well red">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-coffee add-tooltip" data-theme="theme-coffee" data-type="b" data-title="(B). Coofee">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="b" data-title="(B). Prickly pear">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dark add-tooltip" data-theme="theme-dark" data-type="b" data-title="(B). Dark">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_c.png" alt="" />
+												</div>
+												<div class="col-xs-8">
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-c-light add-tooltip" data-theme="theme-light" data-type="c" data-title="(C). Light">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-navy add-tooltip" data-theme="theme-navy" data-type="c" data-title="(C). Navy Blue">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-ocean add-tooltip" data-theme="theme-ocean" data-type="c" data-title="(C). Ocean">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-lime add-tooltip" data-theme="theme-lime" data-type="c" data-title="(C). Lime">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-purple add-tooltip" data-theme="theme-purple" data-type="c" data-title="(C). Purple">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dust add-tooltip" data-theme="theme-dust" data-type="c" data-title="(C). Dust">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-mint add-tooltip" data-theme="theme-mint" data-type="c" data-title="(C). Mint">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-yellow add-tooltip" data-theme="theme-yellow" data-type="c" data-title="(C). Yellow">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-well-red add-tooltip" data-theme="theme-well-red" data-type="c" data-title="(C). Well Red">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-coffee add-tooltip" data-theme="theme-coffee" data-type="c" data-title="(C). Coffee">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="c" data-title="(C). Prickly pear">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dark add-tooltip" data-theme="theme-dark" data-type="c" data-title="(C). Dark">
+															<div class="demo-theme-brand" />
+															<div class="demo-theme-head" />
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="pad-top pad-hor bord-top clearfix">
+					<div class="pull-right">
+						<button id="demo-reset-settings" class="btn btn-primary mar-btm">Reset Settings</button>
+					</div>
+					<p class="text-lg text-semibold">Theme Options</p>
+					<p class="text-muted text-sm">* All settings will be saved automatically.</p>
+				</div>
+			</div>
+			<button id="demo-set-btn" class="btn btn-sm">
+				<i class="fa fa-cog fa-2x" />
+			</button>
+		</div>
+		<script src="js/bootstrap.min.js"/>
+		<script src="plugins/fast-click/fastclick.min.js"/>
+		<script src="js/nifty.min.js"/>
+		<script src="plugins/switchery/switchery.min.js"/>
+		<script src="plugins/bootstrap-select/bootstrap-select.min.js"/>
+		<script src="plugins/datatables/media/js/jquery.dataTables.js"/>
+		<script src="plugins/datatables/media/js/dataTables.bootstrap.js"/>
+		<script src="plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"/>
+		<script src="js/demo/nifty-demo.js"/>
+		<script src="js/demo/tables-datatables.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"/>
+		<script>                                                $(document).ready(function() {                                                var table = $('#demo-dt-basic').dataTable( {                                                   responsive: {                                                            details: {                                                                display: $.fn.dataTable.Responsive.display.modal( {                                                                    header: function ( row ) {                                                                        var data = row.data();                                                                        return 'Details for '+data[0]+' '+data[1];                                                                    }                                                                } ),                                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {                                                                    tableClass: 'table'                                                                } )                                                            }                                                        },       "pageLength": 50, "lengthMenu": [ [5,10,15,20,25, 50,100,500,1000, -1], [5,10, 15, 20, 25, 50,100,500,1000, "All"] ],                                                       "columnDefs": [                                                    { "type": "num-fmt", "targets": 9 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                     { "type": "num-fmt", "targets": 10 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                      { "type": "num-fmt", "targets": 11 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                     { "type": "num-fmt", "targets": 12 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                      { "type": "num-fmt", "targets": 13 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                      { "type": "num-fmt", "targets": 18 , render: $.fn.dataTable.render.number( ',', '.', 0, '' )},                                                      { "type": "html", "targets": 1  }                                                  ], order: [[ 0, "desc" ]],                                                    "language": {                                                      "paginate": {                                                        "previous": '<i class="fa fa-angle-left"/>',                                                        "next": '<i class="fa fa-angle-right"/>'                                                      }                                                    }                                                  } );})                                                        </script>
+		<script>
+                                                        //<![CDATA[
+                                                function countdown( elementName, minutes, seconds )
+                                            {
+                                                var element, endTime, hours, mins, msLeft, time;
+
+                                                function twoDigits( n )
+                                                {
+                                                    return (n <= 9 ? "0" + n : n);
+                                                }
+
+                                                function updateTimer()
+                                                {
+                                                    msLeft = endTime - (+new Date);
+                                                    if ( msLeft < 1000 ) {
+                                                        element.innerHTML = "0:00";
+                                                    } else {
+                                                        time = new Date( msLeft );
+                                                        hours = time.getUTCHours();
+                                                        mins = time.getUTCMinutes();
+                                                        element.innerHTML = (hours ? hours + ':' + twoDigits( mins ) : mins) + ':' + twoDigits( time.getUTCSeconds() );
+                                                        setTimeout( updateTimer, time.getUTCMilliseconds() + 500 );
+                                                    }
+                                                }
+
+                                                element = document.getElementById( elementName );
+                                                endTime = (+new Date) + 1000 * (60*minutes + seconds) + 500;
+                                                updateTimer();
+                                            }
+
+                                            countdown( "countdown", 0, 20 );
+                                            //]]>
+
+
+
+		</script>
+	</h:body>
+</html>

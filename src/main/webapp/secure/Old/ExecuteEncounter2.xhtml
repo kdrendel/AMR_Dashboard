@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" lang="en"  >
+	<h:head>
+
+		<meta charset="utf-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Spice Encounter Monitor</title>
+		<!--STYLESHEET-->
+		<!--=================================================-->
+		<!--Bootstrap Stylesheet [ REQUIRED ]-->
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<!--Nifty Stylesheet [ REQUIRED ]-->
+		<link href="css/nifty.min.css" rel="stylesheet" />
+		<!--Nifty Premium Icon [ DEMO ]-->
+		<link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet" />
+
+		<!--Font Awesome [ OPTIONAL ]-->
+		<link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<!--Switchery [ OPTIONAL ]-->
+		<link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
+		<!--Bootstrap Select [ OPTIONAL ]-->
+		<link href="plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+		<!--Bootstrap Table [ OPTIONAL ]-->
+		<link href="plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+		<link href="plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />
+		<!--Demo [ DEMONSTRATION ]-->
+		<link href="css/demo/nifty-demo.css" rel="stylesheet" />
+		<!--SCRIPT-->
+		<!--=================================================-->
+		<!--Page Load Progress Bar [ OPTIONAL ]-->
+		<link href="plugins/pace/pace.min.css" rel="stylesheet" />
+
+		<script src="plugins/pace/pace.min.js"/>
+		<script src="https://www.amcharts.com/lib/3/amcharts.js"/>
+		<script src="https://www.amcharts.com/lib/3/serial.js"/>
+		<script src="https://www.amcharts.com/lib/3/themes/light.js"/>
+	</h:head>
+	<h:body>
+		<f:metadata>
+			<f:viewAction action="#{encounterController.checkF5}" onPostBack="true">
+			</f:viewAction>
+		</f:metadata>
+		<div id="container" class="effect mainnav-lg" style="background-color:transparent">
+
+			<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false" styleClass="statusDialog" closable="false" resizable="false" showHeader="false">
+				<p:graphicImage value="img/ajax-loader.gif" />
+			</p:dialog>
+
+			<!--NAVBAR-->
+			<!--===================================================-->
+			<header id="navbar">
+
+				<div id="navbar-container" class="boxed">
+					<!--Brand logo & name-->
+					<!--================================-->
+
+					<div class="navbar-header">
+						<a  class="navbar-brand">
+							<img src="img/logo.png" alt="Spice Logo" class="brand-icon" />
+
+							<div class="brand-title">
+								<span class="brand-text">Spice Monitor</span>
+							</div>
+						</a>
+					</div>
+					<!--================================-->
+					<!--End brand logo & name-->
+					<!--Navbar Dropdown-->
+					<!--================================-->
+
+					<div class="navbar-content clearfix">
+
+
+						<ul class="nav navbar-top-links pull-right">
+							<li id="dropdown-user" class="dropdown">
+								<a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+									<span class="pull-right">
+										<img class="img-circle img-user media-object" src="img/av1.png" alt="Profile Picture" />
+									</span>
+
+									<div class="username hidden-xs">#{encounterController.userid}</div>
+								</a>
+								<div class="dropdown-menu dropdown-menu-md dropdown-menu-right panel-default">
+									<ul class="head-list">
+										<li>
+											<a href="#">
+												<i class="pli-male icon-lg icon-fw" /> Profile
+											</a>
+										</li>
+										<li>
+											<a href="#">
+												<span class="badge badge-danger pull-right">9</span>
+												<i class="pli-mail icon-lg icon-fw" /> Messages
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<span class="label label-success pull-right">New</span>
+												<i class="pli-gear icon-lg icon-fw" /> Settings
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<i class="pli-information icon-lg icon-fw" /> Help
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<i class="pli-computer-secure icon-lg icon-fw" /> Lock screen
+											</a>
+										</li>
+									</ul>
+									<!-- Dropdown footer -->
+
+									<div class="pad-all text-right">
+										<a  class="btn btn-primary">
+											<i class="pli-unlock" /> Logout
+										</a>
+									</div>
+								</div>
+							</li>
+							<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+							<!--End user dropdown-->
+						</ul>
+					</div>
+					<!--================================-->
+					<!--End Navbar Dropdown-->
+				</div>
+			</header>
+			<div class="boxed">				
+				<div id="content-container">
+					<div id="page-content">
+						<div class="panel">
+
+
+							<script>																function runEncounter(																										planName,fileName) {																  $.niftyNoty({																		icon: 'fa fa-check fa-lg',																		type: 'success',																		message: planName + "'s file " + fileName + " was successfuly approved."																	});																			}									</script>
+
+							<div class="panel-body">
+								<h:form id="transactionview" onkeypress="if (event.keyCode == 13) { return false; }">
+
+
+									<style type="text/css">
+														 .ui-confirm-dialog{
+														 top: 30vh !important;
+														 left:50vh !important;
+														}
+
+														div.dataTables_length label { padding-left: 6px;}
+									</style>
+
+
+
+
+									<h:form id="form">
+										<p:growl id="msgs" showDetail="true"/>
+
+										<p:dataTable id="mainDatatable" var="encounterRec" value="#{encounterController.getWSDLList()}" editable="true" style="margin-bottom:20px">
+											<f:facet name="header">
+													Encounter Process Kick Off
+											</f:facet>
+
+											<p:ajax event="rowEdit" listener="#{encounterController.onRowEdit}" update=":form:msgs" />
+											<p:ajax event="rowEditCancel" listener="#{encounterController.onRowCancel}" update=":form:msgs" />
+											<p:column headerText="">
+												<p:commandButton style="font-size: 10px;margin-top: 6px;" value="Run" update="@none" oncomplete="runEncounter('#{encounterRec.wsdl}');" actionListener="#{encounterController.callEncounterProc(encounterRec.wsdl)}">
+													<p:confirm header="Confirmation" message="Are you sure you want to run the encounter process ?" icon="ui-icon-alert" />
+												</p:commandButton>
+												<p:confirmDialog id="reprocessConfirm2" global="true" >
+													<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+													<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+												</p:confirmDialog>
+											</p:column>
+											<p:column headerText="Name">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText value="#{encounterRec.name}" />
+													</f:facet>
+													<f:facet name="input">
+														<p:inputText id="modelInput" value="#{encounterRec.name}" style="width:100%"/>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="WSDL">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText value="#{encounterRec.wsdl}" />
+													</f:facet>
+													<f:facet name="input">
+														<p:inputText value="#{encounterRec.wsdl}" style="width:100%" label="Year"/>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Billing ID">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText value="#{encounterRec.billingid}" />
+													</f:facet>
+													<f:facet name="input">
+														<p:inputText value="#{encounterRec.billingid}" style="width:100%" label="Year"/>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column headerText="Comments">
+												<p:cellEditor>
+													<f:facet name="output">
+														<h:outputText value="#{encounterRec.comments}" />
+													</f:facet>
+													<f:facet name="input">
+														<p:inputText value="#{encounterRec.comments}" style="width:100%" label="Year"/>
+													</f:facet>
+												</p:cellEditor>
+											</p:column>
+
+											<p:column style="width:35px">
+												<p:rowEditor />
+											</p:column>
+										</p:dataTable>
+
+									</h:form>
+								</h:form>
+							</div>
+						</div>
+						<!--===================================================-->
+						<!-- End Striped Table -->
+
+					</div>
+					<!--===================================================-->
+					<!--End page content-->
+				</div>
+				<!--===================================================-->
+				<!--END CONTENT CONTAINER-->
+
+				<!--MAIN NAVIGATION-->
+				<!--===================================================-->
+				<nav id="mainnav-container">
+
+					<div id="mainnav">
+						<!--Shortcut buttons-->
+						<!--================================-->
+
+
+						<!--================================-->
+						<!--End shortcut buttons-->
+						<!--Menu-->
+						<!--================================-->
+
+						<div id="mainnav-menu-wrap">
+
+
+						</div>
+						<!--================================-->
+						<!--End menu-->
+					</div>
+				</nav>
+				<!--===================================================-->
+				<!--END MAIN NAVIGATION-->
+
+				<!--ASIDE-->
+				<!--===================================================-->
+				<aside id="aside-container">
+
+					<div id="aside">
+
+						<div class="nano">
+
+							<div class="nano-content">
+
+								<!--Nav tabs-->
+								<!--================================-->
+
+								<ul class="nav nav-tabs nav-justified">
+
+									<li class="active">
+										<a href="#demo-asd-tab-1" data-toggle="tab">
+											<i class="pli-speech-bubble-7" />
+											<span class="badge badge-purple">7</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="#demo-asd-tab-2" data-toggle="tab">
+											<i class="pli-information" />
+										</a>
+									</li>
+
+									<li>
+										<a href="#demo-asd-tab-3" data-toggle="tab">
+											<i class="pli-wrench" />
+										</a>
+									</li>
+								</ul>
+								<!--================================-->
+								<!--End nav tabs-->
+								<!-- Tabs Content -->
+								<!--================================-->
+
+								<div class="tab-content">
+									<!--First tab (Contact list)-->
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+									<div class="tab-pane fade in active" id="demo-asd-tab-1">
+
+										<h4 class="pad-all">
+											<span class="pull-right badge badge-warning">3</span> Family
+										</h4>
+										<!--Family-->
+
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av2.png" alt="Profile Picture" />
+												</div>
+
+												<div class="media-body">
+
+													<p class="mar-no">Stephen Tran</p>
+													<small class="text-muted">Availabe</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av4.png" alt="Profile Picture" />
+												</div>
+
+												<div class="media-body">
+
+													<p class="mar-no">Brittany Meyer</p>
+													<small class="text-muted">I think so</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av3.png" alt="Profile Picture" />
+												</div>
+
+												<div class="media-body">
+
+													<p class="mar-no">Donald Brown</p>
+													<small class="text-muted">Lorem ipsum dolor sit amet.</small>
+												</div>
+											</a>
+											<a href="#" class="list-group-item">
+
+												<div class="media-left">
+													<img class="img-circle img-xs" src="img/av5.png" alt="Profile Picture" />
+												</div>
+
+												<div class="media-body">
+
+													<p class="mar-no">Betty Murphy</p>
+													<small class="text-muted">Bye</small>
+												</div>
+											</a>
+										</div>
+
+										<hr />
+
+										<h4 class="pad-hor">
+											<span class="pull-right badge badge-success">Offline</span> Friends
+										</h4>
+										<!--Works-->
+
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+												<span class="badge badge-purple badge-icon badge-fw pull-left" /> Joey K. Greyson
+											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-info badge-icon badge-fw pull-left" /> Andrea Branden
+											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-success badge-icon badge-fw pull-left" /> Johny Juan
+											</a>
+											<a href="#" class="list-group-item">
+												<span class="badge badge-danger badge-icon badge-fw pull-left" /> Susan Sun
+											</a>
+										</div>
+
+										<hr />
+
+										<h4 class="pad-hor">News</h4>
+
+										<div class="pad-hor">
+
+											<p class="text-muted">Lorem ipsum dolor sit amet, consectetuer
+												<a data-title="45%" class="add-tooltip text-semibold" href="#">adipiscing elit</a>, sed diam nonummy nibh. Lorem ipsum dolor sit amet.
+											</p>
+											<small class="text-muted">
+												<em>Last Update : Des 12, 2014</em>
+											</small>
+										</div>
+									</div>
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+									<!--End first tab (Contact list)-->
+									<!--Second tab (Custom layout)-->
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+									<div class="tab-pane fade" id="demo-asd-tab-2">
+										<!--Monthly billing-->
+
+										<div class="pad-all">
+
+											<h4>Billing &amp; reports</h4>
+
+											<p class="text-muted">Get <strong>$5.00</strong> off your next bill by making sure your full payment reaches us before August 5, 2016.</p>
+
+											<hr />
+											<span class="text-semibold">Amount Due On</span>
+
+											<p>August 17, 2016</p>
+
+											<p class="text-2x text-thin">$83.09</p>
+											<button class="btn btn-block btn-success mar-top">Pay Now</button>
+										</div>
+
+										<hr />
+
+										<h4 class="pad-hor">Additional Actions</h4>
+										<!--Simple Menu-->
+
+										<div class="list-group bg-trans">
+											<a href="#" class="list-group-item">
+												<i class="pli-information icon-lg icon-fw" /> Service Information</a>
+											<a href="#" class="list-group-item">
+												<i class="pli-mine icon-lg icon-fw" /> Usage Profile</a>
+											<a href="#" class="list-group-item">
+												<span class="label label-info pull-right">New</span>
+												<i class="pli-credit-card-2 icon-lg icon-fw" /> Payment Options</a>
+											<a href="#" class="list-group-item">
+												<i class="pli-support icon-lg icon-fw" /> Message Center</a>
+										</div>
+
+										<hr />
+
+										<div class="text-center">
+
+											<div>
+												<i class="pli-old-telephone icon-3x" />
+											</div>
+                                        Questions?
+
+											<p class="text-lg text-semibold"> (415) 234-53454 </p>
+											<small>
+												<em>We are here 24/7</em>
+											</small>
+										</div>
+									</div>
+									<!--End second tab (Custom layout)-->
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+									<!--Third tab (Settings)-->
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+									<div class="tab-pane fade" id="demo-asd-tab-3">
+
+										<ul class="list-group bg-trans">
+
+											<li class="pad-top list-header">
+
+												<h4>Account Settings</h4>
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+
+												<p>Show my personal status</p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+
+												<p>Show offline contact</p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" />
+												</div>
+
+												<p>Invisible mode </p>
+												<small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+											</li>
+										</ul>
+
+										<hr />
+
+										<ul class="list-group pad-btm bg-trans">
+
+											<li class="list-header">
+												<h4>Public Settings</h4>
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+                                            Online status
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" checked="checked" />
+												</div>
+                                            Show offline contact
+											</li>
+
+											<li class="list-group-item">
+
+												<div class="pull-right">
+													<input class="demo-switch" type="checkbox" />
+												</div>
+                                            Show my device icon
+											</li>
+										</ul>
+
+										<hr />
+
+										<h4 class="pad-hor">Task Progress</h4>
+
+										<div class="pad-all">
+
+											<p>Upgrade Progress</p>
+
+											<div class="progress progress-sm">
+
+												<div class="progress-bar progress-bar-success" style="width: 15%;">
+													<span class="sr-only">15%</span>
+												</div>
+											</div>
+											<small class="text-muted">15% Completed</small>
+										</div>
+
+										<div class="pad-hor">
+
+											<p>Database</p>
+
+											<div class="progress progress-sm">
+
+												<div class="progress-bar progress-bar-danger" style="width: 75%;">
+													<span class="sr-only">75%</span>
+												</div>
+											</div>
+											<small class="text-muted">17/23 Database</small>
+										</div>
+									</div>
+									<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+									<!--Third tab (Settings)-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</aside>
+				<!--===================================================-->
+				<!--END ASIDE-->
+			</div>
+
+			<!-- FOOTER -->
+			<!--===================================================-->
+			<footer id="footer">
+				<!-- Visible when footer positions are fixed -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<div class="show-fixed pull-right">
+
+					<ul class="footer-list list-inline">
+
+						<li>
+
+							<p class="text-sm">SEO Proggres</p>
+
+							<div class="progress progress-sm progress-light-base">
+
+								<div style="width: 80%;" class="progress-bar progress-bar-danger" />
+							</div>
+						</li>
+
+						<li>
+
+							<p class="text-sm">Online Tutorial</p>
+
+							<div class="progress progress-sm progress-light-base">
+
+								<div style="width: 80%;" class="progress-bar progress-bar-primary" />
+							</div>
+						</li>
+
+						<li>
+							<button class="btn btn-sm btn-dark btn-active-success">Checkout</button>
+						</li>
+					</ul>
+				</div>
+				<!-- Visible when footer positions are static -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<div class="hide-fixed pull-right pad-rgt">Currently v1.0.0</div>
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+				<!-- Remove the class name "show-fixed" and "hide-fixed" to make the content always appears. -->
+				<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+				<p class="pad-lft">© 2019 AMR</p>
+			</footer>
+			<!--===================================================-->
+			<!-- END FOOTER -->
+			<!-- SCROLL TOP BUTTON -->
+			<!--===================================================-->
+			<button id="scroll-top" class="btn">
+				<i class="fa fa-chevron-up" />
+			</button>
+			<!--===================================================-->
+		</div>
+		<!--===================================================-->
+		<!-- END OF CONTAINER -->
+
+
+		<!-- SETTINGS - DEMO PURPOSE ONLY -->
+		<!--===================================================-->
+
+		<div id="demo-set" class="demo-set">
+
+			<div class="demo-set-body bg-light">
+
+				<div id="demo-set-alert" />
+
+				<div class="nano" style="height: 520px;">
+
+					<div class="nano-content">
+
+						<div class="panel mar-no">
+							<!--Panel heading-->
+
+							<div class="panel-heading bg-dark">
+
+								<div class="panel-control pull-left">
+
+									<ul class="nav nav-tabs text-lg">
+
+
+										<li class="active">
+											<a data-toggle="tab" href="#demo-settings-box-4" aria-expanded="false">Color Schemes</a>
+										</li>
+									</ul>
+								</div>
+
+								<h3 class="panel-title"/>
+							</div>
+							<!--Panel body-->
+
+							<div class="panel-body">
+
+								<div class="tab-content">
+
+
+
+
+
+									<div id="demo-settings-box-4" class="tab-pane fade active in">
+
+										<div id="demo-theme">
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_a.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-a-light add-tooltip" data-theme="theme-light" data-type="a" data-title="(A). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-navy add-tooltip" data-theme="theme-navy" data-type="a" data-title="(A). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-ocean add-tooltip" data-theme="theme-ocean" data-type="a" data-title="(A). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-lime add-tooltip" data-theme="theme-lime" data-type="a" data-title="(A). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-purple add-tooltip" data-theme="theme-purple" data-type="a" data-title="(A). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dust add-tooltip" data-theme="theme-dust" data-type="a" data-title="(A). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-mint add-tooltip" data-theme="theme-mint" data-type="a" data-title="(A). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-yellow add-tooltip" data-theme="theme-yellow" data-type="a" data-title="(A). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-well-red add-tooltip" data-theme="theme-well-red" data-type="a" data-title="(A). Well Red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-coffee add-tooltip" data-theme="theme-coffee" data-type="a" data-title="(A). Coffee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="a" data-title="(A). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-a-dark add-tooltip" data-theme="theme-dark" data-type="a" data-title="(A). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_b.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-b-light add-tooltip" data-theme="theme-light" data-type="b" data-title="(B). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-navy add-tooltip" data-theme="theme-navy" data-type="b" data-title="(B). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-ocean add-tooltip" data-theme="theme-ocean" data-type="b" data-title="(B). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-lime add-tooltip" data-theme="theme-lime" data-type="b" data-title="(B). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-purple add-tooltip" data-theme="theme-purple" data-type="b" data-title="(B). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dust add-tooltip" data-theme="theme-dust" data-type="b" data-title="(B). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-mint add-tooltip" data-theme="theme-mint" data-type="b" data-title="(B). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-yellow add-tooltip" data-theme="theme-yellow" data-type="b" data-title="(B). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-well-red add-tooltip" data-theme="theme-well-red" data-type="b" data-title="(B). Well red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-coffee add-tooltip" data-theme="theme-coffee" data-type="b" data-title="(B). Coofee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="b" data-title="(B). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-b-dark add-tooltip" data-theme="theme-dark" data-type="b" data-title="(B). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+
+												<div class="col-xs-4 text-center">
+													<img src="img/settings/scheme_c.png" alt="" />
+												</div>
+
+												<div class="col-xs-8">
+
+													<div class="demo-theme-btn">
+														<a href="#" class="demo-theme demo-c-light add-tooltip" data-theme="theme-light" data-type="c" data-title="(C). Light">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-navy add-tooltip" data-theme="theme-navy" data-type="c" data-title="(C). Navy Blue">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-ocean add-tooltip" data-theme="theme-ocean" data-type="c" data-title="(C). Ocean">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-lime add-tooltip" data-theme="theme-lime" data-type="c" data-title="(C). Lime">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-purple add-tooltip" data-theme="theme-purple" data-type="c" data-title="(C). Purple">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dust add-tooltip" data-theme="theme-dust" data-type="c" data-title="(C). Dust">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-mint add-tooltip" data-theme="theme-mint" data-type="c" data-title="(C). Mint">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-yellow add-tooltip" data-theme="theme-yellow" data-type="c" data-title="(C). Yellow">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-well-red add-tooltip" data-theme="theme-well-red" data-type="c" data-title="(C). Well Red">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-coffee add-tooltip" data-theme="theme-coffee" data-type="c" data-title="(C). Coffee">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="c" data-title="(C). Prickly pear">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+														<a href="#" class="demo-theme demo-c-dark add-tooltip" data-theme="theme-dark" data-type="c" data-title="(C). Dark">
+
+															<div class="demo-theme-brand" />
+
+															<div class="demo-theme-head" />
+
+															<div class="demo-theme-nav" />
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="pad-top pad-hor bord-top clearfix">
+
+					<div class="pull-right">
+						<button id="demo-reset-settings" class="btn btn-primary mar-btm">Reset Settings</button>
+					</div>
+
+					<p class="text-lg text-semibold">Theme Options</p>
+
+					<p class="text-muted text-sm">* All settings will be saved automatically.</p>
+				</div>
+			</div>
+			<button id="demo-set-btn" class="btn btn-sm">
+				<i class="fa fa-cog fa-2x" />
+			</button>
+		</div>
+
+
+		<!--===================================================-->
+		<!-- END SETTINGS -->
+
+		<!--JAVASCRIPT-->
+		<!--=================================================-->
+		<!--jQuery [ REQUIRED ]-->
+
+
+		<!--BootstrapJS [ RECOMMENDED ]-->
+
+		<script src="js/bootstrap.min.js"/>
+		<!--Fast Click [ OPTIONAL ]-->
+
+		<script src="plugins/fast-click/fastclick.min.js"/>
+
+		<!--Nifty Admin [ RECOMMENDED ]-->
+
+		<script src="js/nifty.min.js"/>
+		<!--Switchery [ OPTIONAL ]-->
+
+		<script src="plugins/switchery/switchery.min.js"/>
+		<!--Bootstrap Select [ OPTIONAL ]-->
+
+		<script src="plugins/bootstrap-select/bootstrap-select.min.js"/>
+		<!--DataTables [ OPTIONAL ]-->
+
+		<script src="plugins/datatables/media/js/jquery.dataTables.js"/>
+
+		<script src="plugins/datatables/media/js/dataTables.bootstrap.js"/>
+
+		<script src="plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"/>
+		<!--Demo script [ DEMONSTRATION ]-->
+
+
+		<script src="js/demo/nifty-demo.js"/>
+		<!--DataTables Sample [ SAMPLE ]-->
+
+		<script src="js/demo/tables-datatables.js"/>
+		<script src="js/demo/dashboard.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"/>
+		<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"/>
+		<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"/>
+		<script src="plugins/datatables/dataTables.responsive.min.js"/>
+		<script src="plugins/datatables/responsive.bootstrap4.min.js"/>
+
+		<script src="plugins/datatables/dataTables.bootstrap4.min.js"/>
+		<!-- Buttons examples -->
+		<script src="plugins/datatables/dataTables.buttons.min.js"/>
+		<script src="plugins/datatables/buttons.bootstrap4.min.js"/>
+		<script src="plugins/datatables/jszip.min.js"/>
+		<script src="plugins/datatables/pdfmake.min.js"/>
+		<script src="plugins/datatables/vfs_fonts.js"/>
+		<script src="plugins/datatables/buttons.html5.min.js"/>
+		<script src="plugins/datatables/buttons.print.min.js"/>
+		<script src="plugins/datatables/dataTables.buttons.min.js"/>
+		<script src="plugins/datatables/buttons.bootstrap4.min.js"/>
+		<script src="plugins/datatables/jszip.min.js"/>
+		<script src="plugins/datatables/pdfmake.min.js"/>
+		<script src="plugins/datatables/vfs_fonts.js"/>
+		<script src="plugins/datatables/buttons.html5.min.js"/>
+		<script src="plugins/datatables/buttons.print.min.js"/>
+		<script src="plugins/datatables/dataTables.fixedHeader.min.js"/>
+		<script src="plugins/datatables/dataTables.keyTable.min.js"/>
+		<script src="plugins/datatables/dataTables.scroller.min.js"/>
+		<!-- Responsive examples -->
+		<script src="plugins/datatables/dataTables.responsive.min.js"/>
+		<script src="plugins/datatables/responsive.bootstrap4.min.js"/>
+		<!--
+
+    REQUIRED
+    You must include this in your project.
+
+    RECOMMENDED
+    This category must be included but you may modify which plugins or components which should be included in your project.
+
+    OPTIONAL
+    Optional plugins. You may choose whether to include it in your project or not.
+
+    DEMONSTRATION
+    This is to be removed, used for demonstration purposes only. This category must not be included in your project.
+
+    SAMPLE
+    Some script samples which explain how to initialize plugins or components. This category should not be included in your project.
+
+
+    Detailed information and more samples can be found in the document.
+
+    -->
+
+	</h:body>
+</html>

@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html	xmlns="http://www.w3.org/1999/xhtml"	xmlns:h="http://java.sun.com/jsf/html"	xmlns:f="http://java.sun.com/jsf/core"	xmlns:p="http://primefaces.org/ui"	xmlns:ui="http://java.sun.com/jsf/facelets" lang="en" xml:lang="en">
+  <h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Spice Encounter Monitor</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/nifty.css" rel="stylesheet" />
+    <link href="css/demo/nifty-demo-icons.min.css" rel="stylesheet" />
+    <link href="plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="plugins/switchery/switchery.min.css" rel="stylesheet" />
+    <link href="plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />
+    <link href="css/demo/nifty-demo.css" rel="stylesheet" />
+    <link href="plugins/pace/pace.min.css" rel="stylesheet" />
+    <script src="plugins/pace/pace.min.js">
+    </script>
+    <script src="https://www.amcharts.com/lib/3/amcharts.js">
+    </script>
+    <script src="https://www.amcharts.com/lib/3/serial.js">
+    </script>
+    <script src="https://www.amcharts.com/lib/3/themes/light.js">
+    </script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/plugins/export/export.min.js">
+    </script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" />
+  </h:head>
+  <h:body>
+    <f:metadata>
+      <f:viewAction action="#{encounterController.checkF5}" onPostBack="true">
+      </f:viewAction>
+    </f:metadata>
+    <div id="container" class="effect mainnav-lg" style="background-color:transparent">
+      <header id="navbar">
+        <div id="navbar-container" class="boxed">
+          <div class="navbar-header">
+            <a class="navbar-brand">
+              <img src="img/logo.png" alt="Spice Logo" class="brand-icon" />
+              <div class="brand-title">
+                <span class="brand-text">Spice Monitor</span>
+              </div>
+            </a>
+          </div>
+          <div class="navbar-content clearfix">
+            <ul class="nav navbar-top-links pull-left">
+              <li class="tgl-menu-btn">
+                <a class="mainnav-toggle" href="#">
+                  <i class="pli-view-list">
+                  </i>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav navbar-top-links pull-right">
+              <li id="dropdown-user" class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right">
+                  <span class="pull-right">
+                    <img class="img-circle img-user media-object" src="img/av1.png" alt="Profile Picture" />
+                  </span>
+                  <div class="username hidden-xs">#{encounterController.userid}</div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="boxed">
+        <div id="content-container">
+          <div id="page-content">
+		  <h:inputHidden id="hidden" value="#{encounterController.currentPartner}" />
+		  <script>																function runEncounter2(																										) {																  $.niftyNoty({																		icon: 'fa fa-check fa-lg',																		type: 'success',																		message: " Encounter data update was successfuly kicked-off.  Please allow a few minutes to complete"																	});																			}									</script>											
+		  <script>																function getExportFileName(			) {return document.getElementById('hidden').value + ' Attestation Report' ;};																												</script>											
+            <div class="panel">
+              <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+              <p:dialog widgetVar="statusDialog" modal="true" draggable="false" styleClass="statusDialog" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage value="img/ajax-loader.gif" />
+              </p:dialog>
+              <div class="panel-body">
+                <h:form id="transactionview" onkeypress="if (event.keyCode == 13) { return false; }">
+                  <div style="position: fixed; z-index: 11;  top: 16px; right: 40%; top: -9px;margin-top: 10px;" class="row">
+                    <h4 class="m-b-30 m-t-0" style="color: darkblue;">#{encounterController.currentPartner}</h4>
+                  </div>
+                  <div style="position: absolute;right: 72px;margin-top: 10px;" class="row">
+				                                              <p:commandButton style="left: -44px;font-size: 10px;margin-top: 6px;" value="Update All Plan's Graph Data" update="@none" oncomplete="runEncounter2();" actionListener="#{encounterExecuteController.callEncounterUpdateProc()}">
+                                              <p:confirm header="Confirmation" message="Are you sure you want to Update Dashboard data?" icon="ui-icon-alert" />
+                                            </p:commandButton>
+                                            <p:confirmDialog id="reprocessConfirm2" global="true" >
+                                              <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                              <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                                            </p:confirmDialog>
+                    <p:selectOneButton style="font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;font-size: 12px;" value="#{encounterController.dateFormatID}">
+                      <p:ajax update="@none" process="@this" event="change" oncomplete="location.reload();" listener="#{encounterController.changeType}">
+                      </p:ajax>
+                      <f:selectItem itemLabel="Group By Day" itemValue="1">
+                      </f:selectItem>
+                      <f:selectItem itemLabel="Group By Week" itemValue="2">
+                      </f:selectItem>
+                      <f:selectItem itemLabel="Group By Month" itemValue="3">
+                      </f:selectItem>
+                      <f:selectItem itemLabel="Group By Year" itemValue="4">
+                      </f:selectItem>
+                    </p:selectOneButton>
+                  </div>
+                  <p:remoteCommand name="setFileName" process="@this" actionListener="#{encounterController.setFileName}" execute="@none" update="">
+                  </p:remoteCommand>
+                  <p:remoteCommand name="reprocesstransaction" process="@this" actionListener="#{encounterController.reprocessTransaction}" execute="@none" update="">
+                  </p:remoteCommand>
+                  <style type="text/css">								.dataTables_filter {margin-right: 6px;		};				 .ui-confirm-dialog{														 top: 30vh !important;														 left:50vh !important;														}														div.dataTables_length label { padding-left: 6px;}									</style>
+                  <div class="tab-base">
+                    <ul class="nav nav-tabs">
+                      <ui:fragment rendered="#{encounterController.currentPartner eq 'All Plans'}">
+                        <li class="active">
+                          <a data-toggle="tab" href="#demo-lft-tab-4">All Plans Graph</a>
+                        </li>
+                        <li>
+                          <a data-toggle="tab" href="#demo-lft-tab-2">All Plans Data</a>
+                        </li>
+                        <li>
+                          <a data-toggle="tab" href="#demo-lft-tab-5">Hide View</a>
+                        </li>
+                      </ui:fragment>
+                      <ui:fragment rendered="#{encounterController.currentPartner ne 'All Plans'}">
+                        <li class="active">
+                          <a data-toggle="tab" href="#demo-lft-tab-1">Graph View</a>
+                        </li>
+                        <li>
+                          <a data-toggle="tab" href="#demo-lft-tab-3">Data View</a>
+                        </li>
+                        <li>
+                          <a data-toggle="tab" href="#demo-lft-tab-5">Hide View</a>
+                        </li>
+                      </ui:fragment>
+                    </ul>
+                    <div class="tab-content">
+                      <ui:fragment rendered="#{encounterController.currentPartner ne 'All Plans'}">
+                        <div id="demo-lft-tab-1" class="tab-pane fade active in">
+                          <div style="width: 100%;height: 45vh;margin-top: -21px;" class="chartdiv" id="chartdiv2">
+                          </div>
+                          <script type="text/javascript">			testChart2();function testChart2() {var chart = AmCharts.makeChart("chartdiv2",				{							"type": "serial",	"categoryField": "category",	"angle": 30,	"depth3D": 30,	"startDuration": 1,	"export": {		"enabled": true	},	"categoryAxis": {		"gridPosition": "start",			"fontSize": 9,		"labelRotation": 23.4	},	"chartCursor": {		"enabled": true,		"bulletsEnabled": true,		"categoryBalloonEnabled": false	},	"chartScrollbar": {		"enabled": true,		"oppositeAxis": false	},	"trendLines": [],	"graphs": [		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#f0692b",			"lineColor": "#f0692b",			"id": "rejectGraph",			"title": "Rejected",			"type": "column",			"valueField": "Rejected_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"id": "readyGraph",				"fillColors": "#3020e3",			"lineColor": "#3020e3",			"title": "Ready To Submit",			"type": "column",			"valueField": "Ready_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#e34b30",			"id": "soaerrorGraph",			"lineColor": "#e34b30",			"title": "SOA Error",			"type": "column",			"valueField": "SOAerror_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#f0f030",			"id": "submittedGraph",			"lineColor": "#f0f030",			"title": "Submitted",			"type": "column",			"valueField": "Submitted_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#4bad2d",			"id": "acceptedGraph",			"lineColor": "#4bad2d",			"title": "Accepted",			"type": "column",			"valueField": "Accepted_cnt"		},		{			"balloonText": "Total [[value]]",			"bulletAlpha": 0,			"id": "totalGraph",			"legendAlpha": 0,			"lineColor": "undefined",			"title": "Total",			"valueField": "Total_cnt"		},				{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#000000",			"lineColor": "#000000",			"id": "noStatusGraph",			"title": "No Status Given",			"type": "column",			"valueField": "NoStatusGiven_cnt"		},				{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#000000",			"lineColor": "#000000",			"id": "nonBillableGraph",			"title": "Non-Billable",			"type": "column",			"valueField": "Non-Billable_cnt"		}	],	"guides": [],	"valueAxes": [		{			"id": "ValueAxis-1",			"stackType": "regular",		}	],	"allLabels": [],	"balloon": {},	"legend": {		"enabled": true,		"align": "center",		"useGraphSettings": true	}, "listeners": [{ "event": "clickGraphItem", "method": function(event) {alert('Feature in the works... ' + event.graph.id +  ' - ' + event.item.dataContext.Total_cnt);} }],	"dataProvider": [														<p:repeat value="#{encounterController.encounterGraphPartnerList}" var="encounterWeeklyRec">		#{encounterWeeklyRec.weekStart} #{encounterWeeklyRec.weekEnd}													</p:repeat>	]				}			);chart.addListener("rendered", zoomChart);zoomChart();function zoomChart() { chart.zoomToIndexes(chart.dataProvider.length - 7										, chart.dataProvider.length - 1);}};													</script>
+                        </div>
+                      </ui:fragment>
+                      <div id="demo-lft-tab-2" class="tab-pane fade">
+                        <table id="datatable2" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                            <tr>
+                              <th style="text-align: center;">#{encounterController.displayName}</th>
+                              <th style="text-align: center;">total</th>
+                              <th style="text-align: center;">Accepted</th>
+                              <th style="text-align: center;">Rejected</th>
+                              <th style="text-align: center;">Submitted</th>
+                              <th style="text-align: center;">Ready</th>
+                              <th style="text-align: center;">SOA Error</th>
+                              <th style="text-align: center;">No Status</th>
+                              <th style="text-align: center;">Non-Billed</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <p:repeat value="#{encounterController.encounterWeeklyList}" var="encounterWeeklyRec">
+                              <tr>
+                                <td style="text-align: center;">#{encounterWeeklyRec.weekStart}</td>
+                                <td style="text-align: center;">#{encounterWeeklyRec.total}</td>
+                                <ui:fragment rendered="#{encounterWeeklyRec.acceptedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.acceptedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.acceptedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.rejectedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.rejectedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.rejectedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.submittedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.submittedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.submittedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.readyCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.readyCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.readyCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.soaerrorCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.soaerrorCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.soaerrorCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nostatusCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.nostatusCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nostatusCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nonbilledCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.nonbilledCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nonbilledCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                              </tr>
+                            </p:repeat>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div id="demo-lft-tab-3" class="tab-pane fade">
+                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                          <thead>
+                            <tr>
+                              <th style="text-align: center;">#{encounterController.displayName}</th>
+                              <th style="text-align: center;">total</th>
+                              <th style="text-align: center;">Accepted</th>
+                              <th style="text-align: center;">Rejected</th>
+                              <th style="text-align: center;">Submitted</th>
+                              <th style="text-align: center;">Ready</th>
+                              <th style="text-align: center;">SOA Error</th>
+                              <th style="text-align: center;">No Status</th>
+                              <th style="text-align: center;">Non-Billed</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <p:repeat value="#{encounterController.partnerEncounterWeeklyList}" var="encounterWeeklyRec">
+                              <tr>
+                                <td style="text-align: center;">#{encounterWeeklyRec.weekStart}</td>
+                                <td style="text-align: center;">#{encounterWeeklyRec.total}</td>
+                                <ui:fragment rendered="#{encounterWeeklyRec.acceptedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.acceptedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.acceptedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.rejectedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.rejectedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.rejectedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.submittedCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.submittedCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.submittedCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.readyCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.readyCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.readyCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.soaerrorCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.soaerrorCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.soaerrorCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nostatusCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.nostatusCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nostatusCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nonbilledCnt gt 0}">
+                                  <td style="text-align: center;">#{encounterWeeklyRec.nonbilledCnt}</td>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{encounterWeeklyRec.nonbilledCnt eq 0}">
+                                  <td style="text-align: center;">
+                                  </td>
+                                </ui:fragment>
+                              </tr>
+                            </p:repeat>
+                          </tbody>
+                        </table>
+                      </div>
+                      <ui:fragment rendered="#{encounterController.currentPartner eq 'All Plans'}">
+                        <div id="demo-lft-tab-4" class="tab-pane fade active in">
+                          <div style="width: 100%;height: 45vh;margin-top: -21px;" class="chartdiv" id="chartdiv">
+                          </div>
+                          <script type="text/javascript">			testChart();function testChart() {var chart = AmCharts.makeChart("chartdiv",				{								"type": "serial",	"categoryField": "category",	"angle": 30,	"depth3D": 30,	"startDuration": 1,	"export": {		"enabled": true	},	"categoryAxis": {		"gridPosition": "start",			"fontSize": 9,		"labelRotation": 23.4	},	"chartCursor": {		"enabled": true,		"bulletsEnabled": true,		"categoryBalloonEnabled": false	},	"chartScrollbar": {		"enabled": true,		"oppositeAxis": false	},	"trendLines": [],	"graphs": [		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#f0692b",			"lineColor": "#f0692b",			"id": "rejectGraph",			"title": "Rejected",			"type": "column",			"valueField": "Rejected_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"id": "readyGraph",				"fillColors": "#3020e3",			"lineColor": "#3020e3",			"title": "Ready To Submit",			"type": "column",			"valueField": "Ready_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#e34b30",			"id": "soaerrorGraph",			"lineColor": "#e34b30",			"title": "SOA Error",			"type": "column",			"valueField": "SOAerror_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#f0f030",			"id": "submittedGraph",			"lineColor": "#f0f030",			"title": "Submitted",			"type": "column",			"valueField": "Submitted_cnt"		},		{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#4bad2d",			"id": "acceptedGraph",			"lineColor": "#4bad2d",			"title": "Accepted",			"type": "column",			"valueField": "Accepted_cnt"		},		{			"balloonText": "Total [[value]]",			"bulletAlpha": 0,			"id": "totalGraph",			"legendAlpha": 0,			"lineColor": "undefined",			"title": "Total",			"valueField": "Total_cnt"		},				{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#000000",			"lineColor": "#000000",			"id": "noStatusGraph",			"title": "No Status Given",			"type": "column",			"valueField": "NoStatusGiven_cnt"		},				{			"balloonText": "[[value]] [[title]]",			"fillAlphas": 1,			"fillColors": "#000000",			"lineColor": "#000000",			"id": "nonBillableGraph",			"title": "Non-Billable",			"type": "column",			"valueField": "Non-Billable_cnt"		}	],	"guides": [],	"valueAxes": [		{			"id": "ValueAxis-1",			"stackType": "regular",		}	],	"allLabels": [],	"balloon": {},	"legend": {		"enabled": true,		"align": "center",		"useGraphSettings": true	},	"dataProvider": [														<p:repeat value="#{encounterController.encounterGraphList}" var="encounterWeeklyRec">		#{encounterWeeklyRec.weekStart} #{encounterWeeklyRec.weekEnd}													</p:repeat>	]				}			);chart.addListener("rendered", zoomChart);zoomChart();function zoomChart() { chart.zoomToIndexes(chart.dataProvider.length - 7										, chart.dataProvider.length - 1);}};													</script>
+                        </div>
+                      </ui:fragment>
+                      <div id="demo-lft-tab-5" class="tab-pane fade">
+                      </div>
+                    </div>
+                  </div>
+                  <script> function adjustColumns() {						setTimeout(function() {				$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();   }, 700);} </script>
+                  <script> function filterme() {  var frees = $('input:radio[name="free"]:checked')[0].value; $('#encounterDashDetails').dataTable().fnFilter(frees, 5, false, false, false, false);} </script>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="card-body" style="    padding-top: 10px;">
+                          <div class="table-responsive" style="overflow-x: hidden;">
+						   <div class="row" style="    position: absolute;z-index: 1;        right: 29px;    top: -27px;padding-top: 8px;">
+                              <a>Updated #{encounterController.lastUpdatedString} ago </a>
+							
+                            </div>
+							
+							<div class="row" style="    position: absolute;z-index: 1;        right: 27px;top: -61px;padding-top: 8px;">
+							                              									<script>																function runEncounter3(																										) {																  $.niftyNoty({																		icon: 'fa fa-check fa-lg',																		type: 'success',																		message: " Encounter data update was successfuly kicked-off.  Please allow a few minutes to complete"																	});																			}									</script>											
+								<p:commandButton style="font-size: 10px;margin-top: 6px;" value="Update Graph Data" update="@none" oncomplete="runEncounter3('#{encounterRec.name}');" actionListener="#{encounterExecuteController.callEncounterProc2(encounterController.currentPartner,0)}">
+																	<p:confirm header="Confirmation" message="Are you sure you want to Update Dashboard data for #{encounterRec.name}'s ?" icon="ui-icon-alert" />
+																</p:commandButton>
+																<p:confirmDialog id="reprocessConfirm3" global="true" >
+																	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+																	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+																</p:confirmDialog>	
+									 </div>							
+																
+                            <div class="row" style="    position: absolute;z-index: 1;    left: 531px;padding-top: 8px;">
+                              <input onchange="filterme()" type="radio" name="free" value=""> Show Completed</input>
+                              <input onchange="filterme()" type="radio" name="free" checked="true" style="margin-left: 13px;" value="Incomplete"> Hide Completed</input>
+                            </div>
+                            <h:form id="linesView" onkeypress="if (event.keyCode == 13) { return false; }">
+                              <table id="encounterDashDetails" class="table table-striped table-bordered " cellspacing="0" width="100%">
+                                <thead>
+                                  <tr>
+                                    <th>Details</th>
+                                    <th>Partner</th>
+                                    <th>Batch Date</th>
+                                    <th>
+                                    </th>
+                                    <th>File Name</th>
+                                    <th>Completed</th>
+                                    <th>Min DOS</th>
+                                    <th>Max DOS</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Total Fare</th>
+                                    <th>Trips</th>
+                                    <th>Units</th>
+                                    <th>Claims</th>
+                                    <th>Accepted</th>
+                                    <th>Rejected</th>
+                                    <th>Submitted</th>
+                                    <th>Ready</th>
+                                    <th>SOA Error</th>
+                                    <th>No Status</th>
+                                    <th>Non-Billed</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <p:repeat value="#{encounterController.partnerEncounterList}" var="encounterRec">
+                                    <tr>
+                                      <td style="text-align: center;">
+                                        <h:outputLink style="text-align: center;color:#9c9ce7;font-size: 14px;" target="_blank" value="FileDetails.xhtml" id="patientlink5">                                          View																					<f:param name="fileName" value="#{encounterRec.fileName}">
+                                        </f:param>
+                                        <f:param name="logID" value="#{encounterRec.logID}">
+                                        </f:param>
+                                      </h:outputLink>
+                                    </td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.entityname}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.batchDate}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">
+                                      <div class="progress">
+                                        <div style="width: #{encounterRec.percentage}%;" class="progress-bar progress-bar-success">#{encounterRec.percentage}%</div>
+                                      </div>
+                                    </td>
+                                    <td style="text-align: center;">#{encounterRec.fileName}</td>
+                                    <ui:fragment rendered="#{encounterRec.completed eq 'Complete'}">
+                                      <td style="text-align: center;color:green;">#{encounterRec.completed}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.completed ne 'Complete'}">
+                                      <td style="text-align: center;">#{encounterRec.completed}</td>
+                                    </ui:fragment>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.minDOS}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.maxDOS}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.periodStart}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.periodEnd}</td>
+                                    <td style="text-align: center;">#{encounterRec.totalFare}</td>
+                                    <td style="text-align: center;">#{encounterRec.tripCount}</td>
+                                    <td style="text-align: center;">#{encounterRec.totalUnits}</td>
+                                    <td style="text-align: center;">#{encounterRec.tripCountGrouped}</td>
+                                    <ui:fragment rendered="#{encounterRec.acceptedCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.acceptedCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.acceptedCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.rejectedCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.rejectedCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.rejectedCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.submittedCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.submittedCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.submittedCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.readyCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.readyCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.readyCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.soaerrorCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.soaerrorCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.soaerrorCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.nostatusCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.nostatusCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.nostatusCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.nonbilledCnt gt 0}">
+                                      <td style="text-align: center;">#{encounterRec.nonbilledCnt}</td>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{encounterRec.nonbilledCnt eq 0}">
+                                      <td style="text-align: center;">
+                                      </td>
+                                    </ui:fragment>
+                                  </tr>
+                                </p:repeat>
+                              </tbody>
+                            </table>
+                          </h:form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </h:form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav id="mainnav-container">
+        <div id="mainnav">
+          <div id="mainnav-menu-wrap">
+            <div class="nano" style="overflow-y: visible;">
+              <div class="nano-content" >
+                <ul id="mainnav-menu" class="list-group" style="">
+                  <h:form>
+                    <p:remoteCommand name="changePlanRC" process="@this" actionListener="#{encounterController.setPartner}" execute="@none" oncomplete="location.reload();" ajax="true" update="@none">
+                    </p:remoteCommand>
+                  </h:form>
+                  <p:repeat value="#{encounterController.encounterMenu}" var="encounterMenuRec">
+                    <li style="width: 197px;">
+                      <span class="menu-title">
+                        <a class="waves-effect" style="cursor: pointer;font-size: 11.0px;    border: 1px solid rgba(0,0,0,.125);" onclick="changePlan('#{encounterMenuRec.planName}');">
+                          <div class="row">
+                            <ui:fragment rendered="#{encounterController.currentPartner eq encounterMenuRec.planName}">
+                              <h:outputText style="color: bisque; font-size: 13.16px;font-weight: 700;" value="#{encounterMenuRec.planName}">
+                              </h:outputText>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{encounterController.currentPartner ne encounterMenuRec.planName}">
+                              <h:outputText style="font-size: 11.16px; font-weight: 300;" value="#{encounterMenuRec.planName}">
+                              </h:outputText>
+                            </ui:fragment>
+                          </div>
+                        </a>
+                      </span>
+                    </li>
+                  </p:repeat>
+                  <script>                                   function changePlan(                                       planName) {                                     changePlanRC([ {                                       name : 'planName',                                       value : planName                                     } ]);                                   }                                 </script>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <aside id="aside-container">
+        <div id="aside">
+          <div class="nano">
+            <div class="nano-content">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="active">
+                  <a href="#demo-asd-tab-1" data-toggle="tab">
+                    <i class="pli-speech-bubble-7">
+                    </i>
+                    <span class="badge badge-purple">7</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#demo-asd-tab-2" data-toggle="tab">
+                    <i class="pli-information">
+                    </i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#demo-asd-tab-3" data-toggle="tab">
+                    <i class="pli-wrench">
+                    </i>
+                  </a>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane fade in active" id="demo-asd-tab-1">
+                  <h4 class="pad-all">
+                    <span class="pull-right badge badge-warning">3</span> Family										</h4>
+                    <div class="list-group bg-trans">
+                      <a href="#" class="list-group-item">
+                        <div class="media-left">
+                          <img class="img-circle img-xs" src="img/av2.png" alt="Profile Picture" />
+                        </div>
+                        <div class="media-body">
+                          <p class="mar-no">Stephen Tran</p>
+                          <small class="text-muted">Availabe</small>
+                        </div>
+                      </a>
+                      <a href="#" class="list-group-item">
+                        <div class="media-left">
+                          <img class="img-circle img-xs" src="img/av4.png" alt="Profile Picture" />
+                        </div>
+                        <div class="media-body">
+                          <p class="mar-no">Brittany Meyer</p>
+                          <small class="text-muted">I think so</small>
+                        </div>
+                      </a>
+                      <a href="#" class="list-group-item">
+                        <div class="media-left">
+                          <img class="img-circle img-xs" src="img/av3.png" alt="Profile Picture" />
+                        </div>
+                        <div class="media-body">
+                          <p class="mar-no">Donald Brown</p>
+                          <small class="text-muted">Lorem ipsum dolor sit amet.</small>
+                        </div>
+                      </a>
+                      <a href="#" class="list-group-item">
+                        <div class="media-left">
+                          <img class="img-circle img-xs" src="img/av5.png" alt="Profile Picture" />
+                        </div>
+                        <div class="media-body">
+                          <p class="mar-no">Betty Murphy</p>
+                          <small class="text-muted">Bye</small>
+                        </div>
+                      </a>
+                    </div>
+                    <hr />
+                    <h4 class="pad-hor">
+                      <span class="pull-right badge badge-success">Offline</span> Friends										</h4>
+                      <div class="list-group bg-trans">
+                        <a href="#" class="list-group-item">
+                          <span class="badge badge-purple badge-icon badge-fw pull-left">
+                            </span> Joey K. Greyson											</a>
+                            <a href="#" class="list-group-item">
+                              <span class="badge badge-info badge-icon badge-fw pull-left">
+                                </span> Andrea Branden											</a>
+                                <a href="#" class="list-group-item">
+                                  <span class="badge badge-success badge-icon badge-fw pull-left">
+                                    </span> Johny Juan											</a>
+                                    <a href="#" class="list-group-item">
+                                      <span class="badge badge-danger badge-icon badge-fw pull-left">
+                                        </span> Susan Sun											</a>
+                                      </div>
+                                      <hr />
+                                      <h4 class="pad-hor">News</h4>
+                                      <div class="pad-hor">
+                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetuer												<a data-title="45%" class="add-tooltip text-semibold" href="#">adipiscing elit</a>, sed diam nonummy nibh. Lorem ipsum dolor sit amet.											</p>
+                                        <small class="text-muted">
+                                          <em>Last Update : Des 12, 2014</em>
+                                        </small>
+                                      </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="demo-asd-tab-2">
+                                      <div class="pad-all">
+                                        <h4>Billing &amp; reports</h4>
+                                        <p class="text-muted">Get												<strong>$5.00</strong> off your next bill by making sure your full payment reaches us before August 5, 2016.											</p>
+                                        <hr />
+                                        <span class="text-semibold">Amount Due On</span>
+                                        <p>August 17, 2016</p>
+                                        <p class="text-2x text-thin">$83.09</p>
+                                        <button class="btn btn-block btn-success mar-top">Pay Now</button>
+                                      </div>
+                                      <hr />
+                                      <h4 class="pad-hor">Additional Actions</h4>
+                                      <div class="list-group bg-trans">
+                                        <a href="#" class="list-group-item">
+                                          <i class="pli-information icon-lg icon-fw">
+                                            </i> Service Information											</a>
+                                            <a href="#" class="list-group-item">
+                                              <i class="pli-mine icon-lg icon-fw">
+                                                </i> Usage Profile											</a>
+                                                <a href="#" class="list-group-item">
+                                                  <span class="label label-info pull-right">New</span>
+                                                  <i class="pli-credit-card-2 icon-lg icon-fw">
+                                                    </i> Payment Options											</a>
+                                                    <a href="#" class="list-group-item">
+                                                      <i class="pli-support icon-lg icon-fw">
+                                                        </i> Message Center											</a>
+                                                      </div>
+                                                      <hr />
+                                                      <div class="text-center">
+                                                        <div>
+                                                          <i class="pli-old-telephone icon-3x">
+                                                          </i>
+                                                          </div>                                        Questions?											<p class="text-lg text-semibold"> (415) 234-53454 </p>
+                                                          <small>
+                                                            <em>We are here 24/7</em>
+                                                          </small>
+                                                        </div>
+                                                      </div>
+                                                      <div class="tab-pane fade" id="demo-asd-tab-3">
+                                                        <ul class="list-group bg-trans">
+                                                          <li class="pad-top list-header">
+                                                            <h4>Account Settings</h4>
+                                                          </li>
+                                                          <li class="list-group-item">
+                                                            <div class="pull-right">
+                                                              <input class="demo-switch" type="checkbox" checked="checked" />
+                                                            </div>
+                                                            <p>Show my personal status</p>
+                                                            <small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+                                                          </li>
+                                                          <li class="list-group-item">
+                                                            <div class="pull-right">
+                                                              <input class="demo-switch" type="checkbox" checked="checked" />
+                                                            </div>
+                                                            <p>Show offline contact</p>
+                                                            <small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+                                                          </li>
+                                                          <li class="list-group-item">
+                                                            <div class="pull-right">
+                                                              <input class="demo-switch" type="checkbox" />
+                                                            </div>
+                                                            <p>Invisible mode </p>
+                                                            <small class="text-muted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small>
+                                                          </li>
+                                                        </ul>
+                                                        <hr />
+                                                        <ul class="list-group pad-btm bg-trans">
+                                                          <li class="list-header">
+                                                            <h4>Public Settings</h4>
+                                                          </li>
+                                                          <li class="list-group-item">
+                                                            <div class="pull-right">
+                                                              <input class="demo-switch" type="checkbox" checked="checked" />
+                                                              </div>                                            Online status											</li>
+                                                              <li class="list-group-item">
+                                                                <div class="pull-right">
+                                                                  <input class="demo-switch" type="checkbox" checked="checked" />
+                                                                  </div>                                            Show offline contact											</li>
+                                                                  <li class="list-group-item">
+                                                                    <div class="pull-right">
+                                                                      <input class="demo-switch" type="checkbox" />
+                                                                      </div>                                            Show my device icon											</li>
+                                                                    </ul>
+                                                                    <hr />
+                                                                    <h4 class="pad-hor">Task Progress</h4>
+                                                                    <div class="pad-all">
+                                                                      <p>Upgrade Progress</p>
+                                                                      <div class="progress progress-sm">
+                                                                        <div class="progress-bar progress-bar-success" style="width: 15%;">
+                                                                          <span class="sr-only">15%</span>
+                                                                        </div>
+                                                                      </div>
+                                                                      <small class="text-muted">15% Completed</small>
+                                                                    </div>
+                                                                    <div class="pad-hor">
+                                                                      <p>Database</p>
+                                                                      <div class="progress progress-sm">
+                                                                        <div class="progress-bar progress-bar-danger" style="width: 75%;">
+                                                                          <span class="sr-only">75%</span>
+                                                                        </div>
+                                                                      </div>
+                                                                      <small class="text-muted">17/23 Database</small>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </aside>
+                                                      </div>
+                                                      <footer id="footer">
+                                                        <div class="show-fixed pull-right">
+                                                          <ul class="footer-list list-inline">
+                                                            <li>
+                                                              <p class="text-sm">SEO Proggres</p>
+                                                              <div class="progress progress-sm progress-light-base">
+                                                                <div style="width: 80%;" class="progress-bar progress-bar-danger">
+                                                                </div>
+                                                              </div>
+                                                            </li>
+                                                            <li>
+                                                              <p class="text-sm">Online Tutorial</p>
+                                                              <div class="progress progress-sm progress-light-base">
+                                                                <div style="width: 80%;" class="progress-bar progress-bar-primary">
+                                                                </div>
+                                                              </div>
+                                                            </li>
+                                                            <li>
+                                                              <button class="btn btn-sm btn-dark btn-active-success">Checkout</button>
+                                                            </li>
+                                                          </ul>
+                                                        </div>
+                                                        <div class="hide-fixed pull-right pad-rgt">Currently v1.0.0</div>
+                                                        <p class="pad-lft">© 2019 AMR</p>
+                                                      </footer>
+                                                      <button id="scroll-top" class="btn">
+                                                        <i class="fa fa-chevron-up">
+                                                        </i>
+                                                      </button>
+                                                    </div>
+                                                    <div id="demo-set" class="demo-set">
+                                                      <div class="demo-set-body bg-light">
+                                                        <div id="demo-set-alert">
+                                                        </div>
+                                                        <div class="nano" style="height: 520px;">
+                                                          <div class="nano-content">
+                                                            <div class="panel mar-no">
+                                                              <div class="panel-heading bg-dark">
+                                                                <div class="panel-control pull-left">
+                                                                  <ul class="nav nav-tabs text-lg">
+                                                                    <li class="active">
+                                                                      <li class="">
+                                                                        <a data-toggle="tab" href="#demo-settings-box-4" aria-expanded="false">Color Schemes</a>
+                                                                      </li>
+                                                                    </li>
+                                                                  </ul>
+                                                                </div>
+                                                                <h3 class="panel-title">
+                                                                </h3>
+                                                              </div>
+                                                              <div class="panel-body">
+                                                                <div class="tab-content">
+                                                                  <div id="demo-settings-box-4" class="tab-pane fade active in">
+                                                                    <div id="demo-theme">
+                                                                      <div class="row">
+                                                                        <div class="col-xs-4 text-center">
+                                                                          <img src="img/settings/scheme_a.png" alt="" />
+                                                                        </div>
+                                                                        <div class="col-xs-8">
+                                                                          <div class="demo-theme-btn">
+                                                                            <a href="#" class="demo-theme demo-a-light add-tooltip" data-theme="theme-light" data-type="a" data-title="(A). Light">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-navy add-tooltip" data-theme="theme-navy" data-type="a" data-title="(A). Navy Blue">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-ocean add-tooltip" data-theme="theme-ocean" data-type="a" data-title="(A). Ocean">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-lime add-tooltip" data-theme="theme-lime" data-type="a" data-title="(A). Lime">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-purple add-tooltip" data-theme="theme-purple" data-type="a" data-title="(A). Purple">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-dust add-tooltip" data-theme="theme-dust" data-type="a" data-title="(A). Dust">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-mint add-tooltip" data-theme="theme-mint" data-type="a" data-title="(A). Mint">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-yellow add-tooltip" data-theme="theme-yellow" data-type="a" data-title="(A). Yellow">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-well-red add-tooltip" data-theme="theme-well-red" data-type="a" data-title="(A). Well Red">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-coffee add-tooltip" data-theme="theme-coffee" data-type="a" data-title="(A). Coffee">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="a" data-title="(A). Prickly pear">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-a-dark add-tooltip" data-theme="theme-dark" data-type="a" data-title="(A). Dark">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                        <div class="col-xs-4 text-center">
+                                                                          <img src="img/settings/scheme_b.png" alt="" />
+                                                                        </div>
+                                                                        <div class="col-xs-8">
+                                                                          <div class="demo-theme-btn">
+                                                                            <a href="#" class="demo-theme demo-b-light add-tooltip" data-theme="theme-light" data-type="b" data-title="(B). Light">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-navy add-tooltip" data-theme="theme-navy" data-type="b" data-title="(B). Navy Blue">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-ocean add-tooltip" data-theme="theme-ocean" data-type="b" data-title="(B). Ocean">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-lime add-tooltip" data-theme="theme-lime" data-type="b" data-title="(B). Lime">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-purple add-tooltip" data-theme="theme-purple" data-type="b" data-title="(B). Purple">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-dust add-tooltip" data-theme="theme-dust" data-type="b" data-title="(B). Dust">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-mint add-tooltip" data-theme="theme-mint" data-type="b" data-title="(B). Mint">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-yellow add-tooltip" data-theme="theme-yellow" data-type="b" data-title="(B). Yellow">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-well-red add-tooltip" data-theme="theme-well-red" data-type="b" data-title="(B). Well red">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-coffee add-tooltip" data-theme="theme-coffee" data-type="b" data-title="(B). Coofee">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="b" data-title="(B). Prickly pear">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-b-dark add-tooltip" data-theme="theme-dark" data-type="b" data-title="(B). Dark">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                      <div class="row">
+                                                                        <div class="col-xs-4 text-center">
+                                                                          <img src="img/settings/scheme_c.png" alt="" />
+                                                                        </div>
+                                                                        <div class="col-xs-8">
+                                                                          <div class="demo-theme-btn">
+                                                                            <a href="#" class="demo-theme demo-c-light add-tooltip" data-theme="theme-light" data-type="c" data-title="(C). Light">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-navy add-tooltip" data-theme="theme-navy" data-type="c" data-title="(C). Navy Blue">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-ocean add-tooltip" data-theme="theme-ocean" data-type="c" data-title="(C). Ocean">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-lime add-tooltip" data-theme="theme-lime" data-type="c" data-title="(C). Lime">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-purple add-tooltip" data-theme="theme-purple" data-type="c" data-title="(C). Purple">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-dust add-tooltip" data-theme="theme-dust" data-type="c" data-title="(C). Dust">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-mint add-tooltip" data-theme="theme-mint" data-type="c" data-title="(C). Mint">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-yellow add-tooltip" data-theme="theme-yellow" data-type="c" data-title="(C). Yellow">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-well-red add-tooltip" data-theme="theme-well-red" data-type="c" data-title="(C). Well Red">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-coffee add-tooltip" data-theme="theme-coffee" data-type="c" data-title="(C). Coffee">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-prickly-pear add-tooltip" data-theme="theme-prickly-pear" data-type="c" data-title="(C). Prickly pear">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                            <a href="#" class="demo-theme demo-c-dark add-tooltip" data-theme="theme-dark" data-type="c" data-title="(C). Dark">
+                                                                              <div class="demo-theme-brand" />
+                                                                              <div class="demo-theme-head" />
+                                                                              <div class="demo-theme-nav" />
+                                                                            </a>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <div class="pad-top pad-hor bord-top clearfix">
+                                                          <div class="pull-right">
+                                                            <button id="demo-reset-settings" class="btn btn-primary mar-btm">Reset Settings</button>
+                                                          </div>
+                                                          <p class="text-lg text-semibold">Theme Options</p>
+                                                          <p class="text-muted text-sm">* All settings will be saved automatically.</p>
+                                                        </div>
+                                                      </div>
+                                                      <button id="demo-set-btn" class="btn btn-sm">
+                                                        <i class="fa fa-cog fa-2x">
+                                                        </i>
+                                                      </button>
+                                                    </div>
+													
+                                                    <script src="js/bootstrap.min.js">
+                                                    </script>
+                                                    <script src="plugins/fast-click/fastclick.min.js">
+                                                    </script>
+                                                    <script src="js/nifty.js">
+                                                    </script>
+                                                    <script src="plugins/switchery/switchery.min.js">
+                                                    </script>
+                                                    <script src="plugins/bootstrap-select/bootstrap-select.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/media/js/jquery.dataTables.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/media/js/dataTables.bootstrap.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js">
+                                                    </script>
+                                                    <script src="js/demo/nifty-demo.js">
+                                                    </script>
+                                                    <script src="js/demo/tables-datatables.js">
+                                                    </script>		
+													<script src="js/demo/dashboard.js">
+                                                    </script>
+                                                    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
+                                                    </script>
+                                                    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js">
+                                                    </script>
+                                                    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js">
+                                                    </script>
+                                                    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.responsive.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/responsive.bootstrap4.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.bootstrap4.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.buttons.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.bootstrap4.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/jszip.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/pdfmake.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/vfs_fonts.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.html5.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.print.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.buttons.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.bootstrap4.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/jszip.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/pdfmake.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/vfs_fonts.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.html5.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/buttons.print.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.fixedHeader.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.keyTable.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.scroller.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/dataTables.responsive.min.js">
+                                                    </script>
+                                                    <script src="plugins/datatables/responsive.bootstrap4.min.js">
+                                                    </script>
+                                                    <script>$(document).ready(function() {setTimeout(function() {				$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();   }, 700);    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {     var target = $(e.target).attr("href");    $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();    } );	$('.mainnav-toggle').on('click', function(e){	setTimeout(function() {				$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();   }, 700);            });			})		</script>
+                                                  </h:body>
+                                                </html>
