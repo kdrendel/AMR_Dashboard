@@ -2,26 +2,14 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
 	<display-name>AMRDashboard</display-name>
 	<welcome-file-list>
-		<welcome-file>secure/Dashboard.xhtml</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	<security-constraint>
-		<display-name>Constraint-0</display-name>
-		<web-resource-collection>
-			<web-resource-name>Constraint-0</web-resource-name>
-			<url-pattern>/secure/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
+
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>myrealm</realm-name>
 		<form-login-config>
-			<form-login-page>/login.xhtml</form-login-page>
+			<form-login-page>/pages-login.html</form-login-page>
 			<form-error-page>/loginerror.xhtml</form-error-page>
 		</form-login-config>
 	</login-config>
