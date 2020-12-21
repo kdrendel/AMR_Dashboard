@@ -1,0 +1,44 @@
+{
+    "name": "Coach",
+    "version": "1.1.1",
+    "description": "Coach Theme",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+     
+    "author": "Codescandy",
+    "license": "ISC",
+     
+    "devDependencies": {
+        "browser-sync": "^2.26.7",
+        "del": "^5.1.0",
+        "gulp": "^4.0.2",
+        "gulp-autoprefixer": "^7.0.1",
+        "gulp-cached": "^1.1.1",
+        "gulp-clean-css": "^4.3.0",
+        "gulp-file-include": "^2.2.2",
+        "gulp-if": "^3.0.0",
+        "gulp-npm-dist": "^1.0.3",
+        "gulp-replace": "^1.0.0",
+        "gulp-sass": "^4.1.0",
+        "gulp-uglify": "^3.0.2",
+        "gulp-useref": "^4.0.1",
+        "gulp-webserver": "^0.9.1",
+        "prettier": "^1.19.1"
+    },
+    "dependencies": {
+        "bootstrap": "^4.5.2",
+        "inputmask": "^5.0.5",
+        "ion-rangeslider": "^2.3.1",
+        "jquery": "^3.4.1",
+        "jquery-slimscroll": "^1.3.8",
+        "leaflet": "^1.6.0",
+        "lightpick": "^1.6.1",
+        "magnific-popup": "^1.1.0",
+        "moment": "^2.24.0",
+        "packages": "0.0.8",
+        "prismjs": "^1.19.0",
+        "tiny-slider": "^2.9.3"
+    }
+}
