@@ -1,0 +1,71 @@
+// Nav pills
+.nav-pills.nav-pills-border {
+    .nav-item {
+        .nav-link {
+            border: 1px solid $gray-200;
+            border-radius: 4px;
+            margin-right: -1px;
+            &.active {
+                color: $white;
+                background-color: $primary;
+                border: 1px solid $primary;
+            }
+        }
+    }
+}
+
+.custom-pill {
+    .nav-pills {
+        .nav-item {
+            .nav-link {
+                border-bottom: 3px solid transparent;
+                border-radius: 0px;
+                padding-bottom: 20px;
+                &.active {
+                    background-color: transparent;
+                    border-bottom: 3px solid $primary;
+                    padding-bottom: 20px;
+                }
+            }
+        }
+    }
+    .tab-content {
+        background-color: $light-warning;
+        padding: 30px;
+        border-radius: 0px 0px 4px 4px;
+    }
+}
+
+.nav-footer-links {
+    .nav {
+        .nav-item {
+            .nav-link {
+                font-size: 12px;
+                color: $gray-900;
+                padding: 2px 8px;
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+    }
+}
+
+.nav-simple {
+    .navbar-nav {
+        .nav-item {
+            .nav-link {
+                font-size: 16px;
+                color: $dark;
+            }
+        }
+        .dropdown {}
+        .dropdown-toggle::after {
+            font-family: 'Feather' !important;
+            content: "\e92e";
+            border: 0;
+            vertical-align: top;
+            margin-left: 0px;
+        }
+    }
+}

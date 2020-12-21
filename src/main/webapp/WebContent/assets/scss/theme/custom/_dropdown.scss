@@ -1,0 +1,43 @@
+.dropdown-menu-lg {
+    min-width: 22rem !important;
+    border-radius: 0.25rem;
+}
+
+.dropdown-menu-md {
+    min-width: 16rem !important;
+    border-radius: 0.25rem;
+}
+
+.dropdown-menu {
+    top: 36px;
+    margin: 5px 0px;
+    padding: 0.7rem 0rem;
+    font-size: 1rem;
+    color: #261F44;
+    border: none;
+    min-width: 12rem;
+    box-shadow: 0 10px 30px 0 rgba(31, 45, 61, 0.1);
+    border-radius: 0.25rem;
+    .dropdown-item {
+        font-size: 15px;
+        line-height: 28px;
+        font-weight: 600;
+        color: $black;
+        padding: 0.1rem 1rem;
+        &:hover {
+            color: $primary;
+            text-decoration: none;
+            background-color: transparent;
+            border-radius: 0px;
+        }
+        &.active {
+            color: $primary;
+            text-decoration: none;
+            background-color: transparent;
+        }
+    }
+}
+
+.dropdown-menu-center {
+    position: absolute;
+}

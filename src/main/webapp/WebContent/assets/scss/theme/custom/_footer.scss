@@ -1,0 +1,20 @@
+// Footer
+
+
+.footer {
+  .list-group {
+    .list-group-item {
+      background-color: transparent;
+      padding: 0px;
+      border: transparent;
+      line-height: 1.9;
+      .list-group-item-link {
+        color: $body-color;
+        font-weight: 400;
+        &:hover {
+          color: $gray-300;
+        }
+      }
+    }
+  }
+}

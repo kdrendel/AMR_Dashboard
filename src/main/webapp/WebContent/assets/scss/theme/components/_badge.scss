@@ -1,0 +1,18 @@
+// Extended From Badge
+@mixin badge-variant-soft($color, $badge-soft-bg-opacity) {
+    background-color: rgba($color, $badge-soft-bg-opacity);
+    color: $color;
+    @at-root a#{&} {
+        &:hover {
+            background-color: rgba($color, $badge-soft-bg-opacity * 2);
+            color: $color;
+        }
+    }
+}
+
+@each $color,
+$value in $theme-colors {
+    .bg-#{$color}-soft {
+        @include badge-variant-soft($value, $badge-soft-bg-opacity);
+    }
+}

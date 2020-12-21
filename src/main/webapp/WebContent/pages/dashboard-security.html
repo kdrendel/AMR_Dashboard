@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Coach - Dashboard Security Page</title>
+    @@include("../partials/head.html")
+</head>
+
+<body>
+
+    @@include("../partials/navbar.html", { "classList": "position-sticky border-top-3 border-top border-primary bg-dark" })
+    <!-- pageheader section -->
+    <div class="bg-shape bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                    <div class="pt-lg-8 pb-lg-14 pt-5 pb-0 mb-16">
+                        <h1 class="h2 text-white">Security</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- dashboard nav -->
+    <div class="pb-12 mt-lg-n18 mt-n10">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <nav class="navbar navbar-expand-md navbar-light  dashboard-nav mb-3 mb-lg-0 ">
+                        <a class="d-xl-none d-lg-none d-md-none text-inherit  font-weight-bold" href="#">Menu</a
+							>
+							<button
+								class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light"
+								type="button"
+								data-toggle="collapse"
+								data-target="#navbarNavDropdown"
+								aria-controls="navbarNavDropdown"
+								aria-expanded="false"
+								aria-label="Toggle navigation"
+							>
+								<span class="fas fa-bars"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="navbarNavDropdown">
+								<div class="navbar-nav flex-column w-100 ">
+									<div
+										class="border-bottom p-4 d-flex justify-content-between text-reset"
+									>
+										<div class="d-flex align-items-center">
+											<img
+												src="../assets/images/avatar-1.png"
+												alt=""
+												class="rounded-circle avatar-lg"
+											/>
+											<div class="ml-3 lh-1">
+												<h5 class="mb-1 ">Leslie Alexander</h5>
+												<small>Free Member</small>
+											</div>
+										</div>
+									</div>
+									<div class="p-4">
+										<span class="heading ">Account</span>
+										<ul class="list-unstyled mb-4 mt-2">
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-profile.html"
+													>My Profile</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-subscription.html"
+													>Subscriptions</a
+												>
+											</li>
+											<li class="nav-item active ">
+												<a class="nav-link" href="dashboard-security.html"
+													>Security</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-notifications.html"
+													>Notifications</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-user.html">Users</a>
+                        </li>
+                        </ul>
+                        <span class="heading border-top pt-4 d-block">Billing</span>
+
+                        <ul class="list-unstyled mb-0">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="dashboard-payment-plan.html">Plan & Payment</a
+												>
+											</li>
+											<li class="nav-item">
+												<a
+													class="nav-link"
+													href="dashboard-payment-history.html"
+													>Payment History</a
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</nav>
+					</div>
+					<!-- dashboard -->
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="card rounded-lg mb-4 ">
+							<!-- card header -->
+							<div
+								class="card-header bg-white p-4 d-flex justify-content-between align-items-center"
+							>
+								<h3 class="mb-0 h4">Password</h3>
+								<a href="#" class="text-inherit font-14"
+									>Forgot your password?</a
+								>
+							</div>
+							<!-- card body -->
+							<div class="card-body p-4">
+								<!-- form -->
+								<form class="row">
+									<div class="mb-3 col-12 col-md-8">
+										<label class="form-label" for="currentPassword"
+											>Current Password</label
+										>
+										<input
+											type="password"
+											id="currentPassword"
+											class="form-control"
+											placeholder="************"
+											required
+										/>
+									</div>
+									<div class="col-12 col-md-4"></div>
+									<div class="mb-3 col-12 col-md-8">
+										<label class="form-label" for="newPassword"
+											>New Password</label
+										>
+										<input
+											type="password"
+											id="newPassword"
+											class="form-control"
+											placeholder="************"
+											required
+										/>
+									</div>
+									<div class="col-12 col-md-4"></div>
+									<div class="mb-3 col-12 col-md-8">
+										<label class="form-label" for="confirmPassword"
+											>Confirm Password</label
+										>
+										<input
+											type="password"
+											id="confirmPassword"
+											class="form-control"
+											placeholder="************"
+											required
+										/>
+									</div>
+									<div class="col-12 col-md-4"></div>
+									<div class="col-12">
+										<button class="btn btn-primary" type="submit">
+											Update Password
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+						<!-- card -->
+						<div class="card rounded-lg mb-4 ">
+							<!-- card header -->
+							<div class="card-header bg-white p-4">
+								<h3 class="mb-0 h4">Two-factor authentication</h3>
+							</div>
+							<!-- card body -->
+							<div class="card-body p-6 text-center">
+								<i class="fe fe-lock font-24 text-primary mb-3 d-block"></i>
+								<h3>Two-factor authentication is not enabled yet.</h3>
+								<p class="mb-4">
+									Two-factor authentication add an additional layer of security
+									to your account by requiring more than just a password to log
+									in.
+								</p>
+								<a href="#" class="btn btn-primary btn-sm"
+									>Enable two-factor authentication</a
+								>
+							</div>
+						</div>
+						<!-- card -->
+						<div class="card rounded-lg mb-4 ">
+							<!-- card header -->
+							<div class="card-header bg-white p-4">
+								<h3 class="mb-0 h4">Sessions</h3>
+							</div>
+							<!-- card body -->
+							<div class="card-body p-4">
+								<p class="mb-0 font-14">
+									This is a lst of devices that have logged into your account.
+									Revoke any sessions that you do not recognize.
+								</p>
+								<!-- collapse one -->
+								<ul class="list-group list-group-flush" id="accordionLocation">
+									<li class="list-group-item px-0 py-3 mt-3 ">
+										<div class="d-flex">
+											<div class="mr-2 mt-2">
+												<div class="status bg-success"></div>
+											</div>
+											<div class="d-md-flex  justify-content-between w-100">
+												<div class="d-flex">
+													<i class="fe fe-airplay font-32"></i>
+													<div class="ml-3">
+														<h5 class="mb-0">Ahmedabad 102.250.233.120</h5>
+														<small> Your current session</small>
+														<p class="mb-0 font-14">Seen in IN</p>
+													</div>
+												</div>
+												<div>
+													<a
+														href="#"
+														data-toggle="collapse"
+														data-target="#locationOne"
+														aria-expanded="true"
+														aria-controls="locationOne"
+														class="mt-3 mt-md-0 btn btn-light btn-sm"
+														>See More</a
+													>
+												</div>
+											</div>
+										</div>
+
+										<div
+											id="locationOne"
+											class="collapse show"
+											data-parent="#accordionLocation"
+										>
+											<div class="card-body">
+												<div class="mb-3">
+													<h5 class="mb-0">Device:</h5>
+													<span class="font-14">Chrome on macOS</span>
+												</div>
+												<div class="mb-3">
+													<h5 class="mb-0">Last Location:</h5>
+													<span class="font-14">Ahmedabad, Gujarat, India</span>
+												</div>
+												<div>
+													<h5 class="mb-1">Signed in:</h5>
+													<p class="font-14 mb-0">July 20,2020</p>
+													<span class="font-14">Ahmedabad, Gujarat, India</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<!-- collapse two -->
+									<li class="list-group-item px-0 py-3 ">
+										<div class="d-flex">
+											<div class="mr-2 mt-2">
+												<div class="status bg-success"></div>
+											</div>
+											<div class="d-md-flex  justify-content-between w-100">
+												<div class="d-flex">
+													<i class="fe fe-smartphone font-32"></i>
+													<div class="ml-3">
+														<h5 class="mb-0">Surat 102.250.233.120</h5>
+														<small> Your current session</small>
+														<p class="mb-0 font-14">Seen in IN</p>
+													</div>
+												</div>
+												<div>
+													<a
+														href="#"
+														data-toggle="collapse"
+														data-target="#locationTwo"
+														aria-expanded="true"
+														aria-controls="locationTwo"
+														class="mt-3 mt-md-0 btn btn-light btn-sm"
+														>See More</a
+													>
+												</div>
+											</div>
+										</div>
+
+										<div
+											id="locationTwo"
+											class="collapse"
+											data-parent="#accordionLocation"
+										>
+											<div class="card-body">
+												<div class="mb-3">
+													<h5 class="mb-0">Device:</h5>
+													<span class="font-14">Chrome on macOS</span>
+												</div>
+												<div class="mb-3">
+													<h5 class="mb-0">Last Location:</h5>
+													<span class="font-14">Surat, Gujarat, India</span>
+												</div>
+												<div>
+													<h5 class="mb-1">Signed in:</h5>
+													<p class="font-14 mb-0">July 20,2020</p>
+													<span class="font-14">Surat, Gujarat, India</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<!-- collapse three -->
+									<li class="list-group-item px-0 pt-3 pb-0 ">
+										<div class="d-flex">
+											<div class="mr-2 mt-2">
+												<div class="status bg-success"></div>
+											</div>
+											<div class="d-md-flex  justify-content-between w-100">
+												<div class="d-flex">
+													<i class="fe fe-tablet font-32"></i>
+													<div class="ml-3">
+														<h5 class="mb-0">Vadodara 102.250.233.120</h5>
+														<small> Your current session</small>
+														<p class="mb-0 font-14">Seen in IN</p>
+													</div>
+												</div>
+												<div>
+													<a
+														href="#"
+														data-toggle="collapse"
+														data-target="#locationThree"
+														aria-expanded="true"
+														aria-controls="locationThree"
+														class="mt-3 mt-md-0 btn btn-light btn-sm"
+														>See More</a
+													>
+												</div>
+											</div>
+										</div>
+
+										<div
+											id="locationThree"
+											class="collapse"
+											data-parent="#accordionLocation"
+										>
+											<div class="card-body">
+												<div class="mb-3">
+													<h5 class="mb-0">Device:</h5>
+													<span class="font-14">Chrome on macOS</span>
+												</div>
+												<div class="mb-3">
+													<h5 class="mb-0">Last Location:</h5>
+													<span class="font-14">Vadodara, Gujarat, India</span>
+												</div>
+												<div>
+													<h5 class="mb-1">Signed in:</h5>
+													<p class="font-14 mb-0">July 20,2020</p>
+													<span class="font-14">Vadodara, Gujarat, India</span>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@@include("../partials/footer.html")
+
+		<!-- Optional JavaScript -->
+		
+		@@include("../partials/scripts.html")
+	</body>
+</html>

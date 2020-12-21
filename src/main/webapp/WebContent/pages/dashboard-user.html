@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Coach - Dashboard User Page</title>
+    @@include("../partials/head.html")
+</head>
+
+<body>
+
+    @@include("../partials/navbar.html", { "classList": "position-sticky border-top-3 border-top border-primary bg-dark" })
+    <!-- pageheader section -->
+    <div class="bg-shape bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                    <div class="pt-lg-8 pb-lg-14 pt-5 pb-0 mb-16">
+                        <h1 class="h2 text-white">User</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- dashboard nav -->
+    <div class="pb-12 mt-lg-n18 mt-n10">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <nav class="navbar navbar-expand-md navbar-light  dashboard-nav mb-3 mb-lg-0 ">
+                        <a class="d-xl-none d-lg-none d-md-none text-inherit  font-weight-bold" href="#">Menu</a
+							>
+							<button
+								class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light"
+								type="button"
+								data-toggle="collapse"
+								data-target="#navbarNavDropdown"
+								aria-controls="navbarNavDropdown"
+								aria-expanded="false"
+								aria-label="Toggle navigation"
+							>
+								<span class="fas fa-bars"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="navbarNavDropdown">
+								<div class="navbar-nav flex-column w-100 ">
+									<div
+										class="border-bottom p-4 d-flex justify-content-between text-reset"
+									>
+										<div class="d-flex align-items-center">
+											<img
+												src="../assets/images/avatar-1.png"
+												alt=""
+												class="rounded-circle avatar-lg"
+											/>
+											<div class="ml-3 lh-1">
+												<h5 class="mb-0 ">Leslie Alexander</h5>
+												<small>Free Member</small>
+											</div>
+										</div>
+									</div>
+									<div class="p-4">
+										<span class="heading ">Account</span>
+										<ul class="list-unstyled  mb-4 mt-2">
+											<li class="nav-item">
+												<a class="nav-link" href="dashboard-profile.html"
+													>My Profile</a
+												>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="dashboard-subscription.html"
+													>Subscriptions</a
+												>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="dashboard-security.html"
+													>Security</a
+												>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="dashboard-notifications.html"
+													>Notifications</a
+												>
+											</li>
+											<li class="nav-item active">
+												<a class="nav-link" href="dashboard-user.html">Users</a>
+                        </li>
+                        </ul>
+                        <span class="heading border-top pt-4 d-block">Billing</span>
+
+                        <ul class="list-unstyled mb-0">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="dashboard-payment-plan.html">Plan & Payment</a
+												>
+											</li>
+											<li class="nav-item">
+												<a
+													class="nav-link"
+													href="dashboard-payment-history.html"
+													>Payment History</a
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</nav>
+					</div>
+					<!-- dashboard user -->
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="card rounded-lg mb-4 ">
+							<!-- card header -->
+							<div
+								class="card-header bg-white p-4 border-bottom-0 d-flex justify-content-between align-items-center"
+							>
+								<h3 class="mb-0 h4">User</h3>
+								<a
+									href="#"
+									class="btn btn-primary btn-sm"
+									data-toggle="modal"
+									data-target="#addNew"
+									>Add New</a
+								>
+							</div>
+							<!-- table -->
+							<div class="table-responsive border-0">
+								<table class="table mb-0 text-nowrap ">
+									<thead class="bg-light ">
+										<tr>
+											<th scope="col" class="py-2 border-bottom-0">Name</th>
+											<th scope="col" class="py-2 border-bottom-0">
+												Department
+											</th>
+
+											<th scope="col" class="py-2 border-bottom-0"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3">
+												<img
+													src="../assets/images/avatar-1.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Deandre Kellner</h5>
+													<span class="font-12">deandrekellner@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3">Designer</td>
+											<td class="align-middle p-3">
+												<select class="form-select">
+													<option selected>Admin</option>
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3">
+												<img
+													src="../assets/images/avatar-2.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Babara Clifford</h5>
+													<span class="font-12">babaraclifford@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3">Front End Developer</td>
+											<td class="align-middle p-3">
+												<select class="form-select">
+													<option selected>User</option>
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3">
+												<img
+													src="../assets/images/avatar-3.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Mac Spradling</h5>
+													<span class="font-12">macspradling@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3">Editor</td>
+											<td class="align-middle p-3">
+												<select class="form-select">
+													<option selected>Editor</option>
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3">
+												<img
+													src="../assets/images/avatar-5.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Deedee Song</h5>
+													<span class="font-12">deedeesong@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3">Editor</td>
+											<td class="align-middle p-3">
+												<select class="form-select">
+													<option selected>Editor</option>
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3">
+												<img
+													src="../assets/images/avatar-6.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Toney Crews</h5>
+													<span class="font-12">toneycrews@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3">Editor</td>
+											<td class="align-middle p-3">
+												<select class="form-select">
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td class="align-middle d-flex align-items-center p-3  border-bottom-0">
+												<img
+													src="../assets/images/avatar-7.png"
+													alt=""
+													class="rounded-circle avatar-lg"
+												/>
+												<div class="ml-3 lh-1">
+													<h5 class="mb-0">Cassondra Reisch</h5>
+													<span class="font-12">cassondrareisch@coach.com</span>
+												</div>
+											</td>
+											<td class="align-middle p-3  border-bottom-0">Editor</td>
+											<td class="align-middle p-3  border-bottom-0">
+												<select class="form-select">
+													<option value="Front End Developer"
+														>Front End Developer</option
+													>
+													<option value="Editor">Editor</option>
+													<option value="User">User</option>
+													<option value="Admin">Admin</option>
+												</select>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div
+			class="modal fade"
+			id="addNew"
+			tabindex="-1"
+			aria-labelledby="addNewLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-lg  modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header p-4">
+						<h4 class="modal-title" id="addNewLabel">Add New</h4>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<!-- form -->
+						<div class=" p-3">
+							<form class="row">
+								<div class="mb-3 col-md-6 col-12">
+									<label for="firstName" class="form-label"
+										>First Name<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										name="firstname"
+										id="firstName"
+										placeholder="First Name"
+										class="form-control"
+										required
+									/>
+								</div>
+								<div class="mb-3 col-md-6 col-12">
+									<label for="lastName" class="form-label"
+										>Last Name<span class="text-danger">*</span></label
+									>
+									<input
+										type="text"
+										name="lastname"
+										id="lastName"
+										placeholder="Last Name"
+										class="form-control"
+										required
+									/>
+								</div>
+								<div class="mb-3 col-md-6 col-12">
+									<label for="email" class="form-label"
+										>Email<span class="text-danger">*</span></label
+									>
+									<input
+										type="email"
+										name="email"
+										id="email"
+										placeholder="Email address here"
+										class="form-control"
+										required
+									/>
+								</div>
+								<div class="mb-3 col-md-6 col-12">
+									<label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+									<input
+										type="password"
+										name="password"
+										id="password"
+										placeholder="*******"
+										class="form-control"
+										required
+									/>
+								</div>
+								<div class="mb-3 col-md-6 col-12">
+									<label for="role" class="form-label"
+										>Select Role<span class="text-danger">*</span></label
+									>
+									<select class="form-select" id="role">
+										<option selected>Select Role</option>
+										<option value="1">Admin</option>
+										<option value="2">Developer</option>
+										<option value="3">Designer</option>
+									</select>
+								</div>
+								<div class="mb-3 col-md-6 col-12">
+									<label for="department" class="form-label"  
+										>Department<span class="text-danger">*</span></label
+									>
+									<select class="form-select" id="department">
+										<option selected>Select Department</option>
+										<option value="1">Admin</option>
+										<option value="2">User</option>
+										<option value="3">Front end Developer</option>
+									</select>
+								</div>
+								<div class="col-12 mt-3">
+									<h5 class="mb-3">Allow Permission</h5>
+									<div
+										class="form-check  form-check-inline"
+									>
+										<input
+											type="checkbox"
+											class="form-check-input"
+											id="administrator"
+											checked
+										/>
+										<label class="form-check-label" for="administrator"
+											>Administrator</label
+										>
+									</div>
+									<div
+										class="form-check   form-check-inline"
+									>
+										<input
+											type="checkbox"
+											class="form-check-input"
+											id="supervisor"
+										/>
+										<label class="form-check-label" for="supervisor"
+											>Supervisor</label
+										>
+									</div>
+									<div
+										class="form-check   form-check-inline"
+									>
+										<input
+											type="checkbox"
+											class="form-check-input"
+											id="operator"
+										/>
+										<label class="form-check-label" for="operator"
+											>Operator</label
+										>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-dismiss="modal"
+						>
+							Close
+						</button>
+						<button type="button" class="btn btn-primary">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		@@include("../partials/footer.html")
+
+		<!-- Optional JavaScript -->
+		
+		@@include("../partials/scripts.html")
+	</body>
+</html>

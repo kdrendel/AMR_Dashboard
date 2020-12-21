@@ -1,0 +1,49 @@
+// dashboard nav
+.dashboard-nav {
+    padding: 0rem;
+    border-radius: .3rem;
+    background-color: $white;
+    border: 1px solid $gray-200;
+    @media (max-width: 576px) {
+        padding: 1rem 1.5rem;
+    }
+    @media (min-width: 576px) and (max-width: 767.98px) {
+        border-radius: 0rem 0rem .3rem .3rem;
+        border-top: 1px solid $gray-200;
+        padding: 1rem 1.5rem;
+    }
+    .navbar-nav {
+        .heading {
+            text-transform: uppercase;
+            color: $dark;
+            letter-spacing: 3px;
+            font-weight: 800;
+            font-size: 13px;
+            line-height: 26px;
+            margin-bottom: 10px;
+        }
+        .nav-item {
+            margin-bottom: 2px;
+            &.active {
+                color: $primary !important;
+            }
+            .nav-link {
+                font-size: 16px;
+                padding: .3rem 0rem;
+                font-weight: 500;
+                color: $gray-600;
+                position: relative;
+                i {
+                    position: relative;
+                    top: 1px;
+                }
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+        .active>.nav-link {
+            color: $primary !important;
+        }
+    }
+}

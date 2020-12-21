@@ -1,0 +1,32 @@
+// Scroll navbar
+.navbar-scroll {
+    padding: 20px 0px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    ul {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        margin-bottom: 0;
+        line-height: 1;
+        li {
+            display: inline-block;
+            flex: 0 0 auto;
+            a {
+                color: $dark;
+                padding: 0px;
+                margin: 0px 32px 0px 0px;
+                font-weight: 600;
+                &.active {
+                    color: $primary;
+                    border-bottom: 1px solid $primary;
+                }
+                &:hover {
+                    color: $primary;
+                    border-bottom: 1px solid $primary;
+                }
+            }
+        }
+    }
+}

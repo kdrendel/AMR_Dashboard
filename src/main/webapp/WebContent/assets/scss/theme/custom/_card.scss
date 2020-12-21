@@ -1,0 +1,11 @@
+// Extended from Bootstrap
+
+.card-img-left {
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .card-img-left {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+}
