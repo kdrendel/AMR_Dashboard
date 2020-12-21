@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Coach - Dashboard Notifications Page</title>
+    @@include("../partials/head.html")
+</head>
+
+<body>
+
+    @@include("../partials/navbar.html", { "classList": "position-sticky border-top-3 border-top border-primary bg-dark" })
+    <!-- pageheader section -->
+    <div class="bg-shape bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                    <div class="pt-lg-9 pb-lg-15 pt-6 pb-10 mb-4 ">
+                        <h1 class="h2 text-white">Notifications</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- dashbaord nav -->
+    <div class="pb-12 mt-lg-n14 mt-n9">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <nav class="navbar navbar-expand-md navbar-light  dashboard-nav mb-3 mb-lg-0 ">
+                        <a class="d-xl-none d-lg-none d-md-none text-inherit  font-weight-bold" href="#!">Menu</a
+							>
+							<button
+								class="navbar-toggler d-md-none icon-shape icon-sm rounded bg-primary text-light"
+								type="button"
+								data-toggle="collapse"
+								data-target="#navbarNavDropdown"
+								aria-controls="navbarNavDropdown"
+								aria-expanded="false"
+								aria-label="Toggle navigation"
+							>
+								<span class="fas fa-bars"></span>
+							</button>
+							<div class="collapse navbar-collapse" id="navbarNavDropdown">
+								<div class="navbar-nav flex-column w-100 ">
+									<div
+										class="border-bottom p-4 d-flex justify-content-between text-reset"
+									>
+										<div class="d-flex align-items-center">
+											<img
+												src="../assets/images/avatar-1.png"
+												alt=""
+												class="rounded-circle avatar-lg"
+											/>
+											<div class="ml-3">
+												<h5 class="mb-0 ">Leslie Alexander</h5>
+												<small>Free Member</small>
+											</div>
+										</div>
+									</div>
+									<div class="p-4">
+										<span class="heading ">Account</span>
+										<ul class="list-unstyled  mb-4 mt-2">
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-profile.html"
+													>My Profile</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-subscription.html"
+													>Subscriptions</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-security.html"
+													>Security</a
+												>
+											</li>
+											<li class="nav-item active ">
+												<a class="nav-link" href="dashboard-notifications.html"
+													>Notifications</a
+												>
+											</li>
+											<li class="nav-item ">
+												<a class="nav-link" href="dashboard-user.html">Users</a>
+                        </li>
+                        </ul>
+                        <span class="heading border-top pt-4 d-block">Billing</span>
+
+                        <ul class="list-unstyled mb-0">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="dashboard-payment-plan.html">Plan & Payment</a
+												>
+											</li>
+											<li class="nav-item">
+												<a
+													class="nav-link"
+													href="dashboard-payment-history.html"
+													>Payment History</a
+												>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</nav>
+					</div>
+					<!-- dashboard notification -->
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="card rounded-lg mb-4 ">
+							<!-- card header -->
+							<div class="card-header bg-white p-4">
+								<h3 class="mb-0 h4">Marketing & Product</h3>
+							</div>
+							<!-- card body -->
+							<div class="card-body p-4">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item px-0 pt-0 pb-3">
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<h5 class="mb-1">Sales & Promotions</h5>
+												<p class="mb-0">
+													We only notify you for significant promotions.
+												</p>
+											</div>
+											<div>
+												<div class="custom-control custom-switch">
+													<input
+														type="checkbox"
+														class="custom-control-input"
+														id="salesSwitch"
+														checked
+													/>
+													<label
+														class="custom-control-label"
+														for="salesSwitch"
+													></label>
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item px-0 py-3">
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<h5 class="mb-1">Product Updates</h5>
+												<p class="mb-0">
+													Major changes in our product offering.
+												</p>
+											</div>
+											<div>
+												<div class="custom-control custom-switch">
+													<input
+														type="checkbox"
+														class="custom-control-input"
+														id="productSwitch"
+													/>
+													<label
+														class="custom-control-label"
+														for="productSwitch"
+													></label>
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item px-0 py-3">
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<h5 class="mb-1">Newsletter</h5>
+												<p class="mb-0">
+													Updates on what’s going on here at Coach and latest
+													release.
+												</p>
+											</div>
+											<div>
+												<div class="custom-control custom-switch">
+													<input
+														type="checkbox"
+														class="custom-control-input"
+														id="newsletterSwitch"
+														checked
+													/>
+													<label
+														class="custom-control-label"
+														for="newsletterSwitch"
+													></label>
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item px-0 py-3">
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<h5 class="mb-1">Security Alert</h5>
+												<p class="mb-0">
+													Updates on what’s going on here at Coach and latest
+													release.
+												</p>
+											</div>
+											<div>
+												<div class="custom-control custom-switch">
+													<input
+														type="checkbox"
+														class="custom-control-input"
+														id="securitySwitch"
+													/>
+													<label
+														class="custom-control-label"
+														for="securitySwitch"
+													></label>
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item px-0 pt-3 pb-0">
+										<div class="d-flex justify-content-between">
+											<div class="">
+												<h5 class="mb-1">Events and offers</h5>
+												<p class="mb-0">
+													Updates on what’s going on here at Coach and latest
+													release.
+												</p>
+											</div>
+											<div>
+												<div class="custom-control custom-switch">
+													<input
+														type="checkbox"
+														class="custom-control-input"
+														id="eventSwitch"
+														checked
+													/>
+													<label
+														class="custom-control-label"
+														for="eventSwitch"
+													></label>
+												</div>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		@@include("../partials/footer.html")
+
+		<!-- Optional JavaScript -->
+		
+		@@include("../partials/scripts.html")
+	</body>
+</html>

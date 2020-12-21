@@ -1,0 +1,16 @@
+.lift {
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px 0 transparent;
+    -webkit-transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+    transition: box-shadow 200ms ease, -webkit-transform 200ms ease;
+    transition: box-shadow 200ms ease, transform 200ms ease;
+    transition: box-shadow 200ms ease, transform 200ms ease, -webkit-transform 200ms ease;
+    &:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+        -webkit-transform: translate(0px, -12px);
+        -ms-transform: translate(0px, -12px);
+        transform: translate(0px, -12px);
+    }
+}

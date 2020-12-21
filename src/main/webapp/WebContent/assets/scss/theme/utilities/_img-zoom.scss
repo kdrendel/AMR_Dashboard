@@ -1,0 +1,13 @@
+// zoom
+
+.img-zoom {
+    border-radius: .25rem;   
+    overflow: hidden;
+    img {
+        transition: transform .5s ease;         
+      &:hover {
+        transform: scale(1.1);
+        
+      }
+    }
+  }
