@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -800,5 +801,35 @@ public class EncounterExecuteController implements Serializable {
 	@PreDestroy
 	public void cleanUp() throws Exception {
 		// System.out.println("Clean Up!!!!");
+	}
+		public List<EncounterValidationObject> getTest() throws Exception {
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		params.get("logID");
+		String logID = params.get("logID");
+
+		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
+		String conStr = System.getenv("MYSQLCONNSTR_MyShuttleDb");
+		theConnection = DriverManager.getConnection(conStr);
+		
+		PreparedStatement ps = theConnection.prepareStatement( 
+				"Select col1,col2 from table1");
+
+		ResultSet result = ps.executeQuery();
+
+		while (result.next()) {
+			EncounterValidationObject EncounterFileRec = new EncounterValidationObject();
+			
+			EncounterFileRec.setHealthPlancode(result.getString("col1"));
+			EncounterFileRec.setStopid(result.getString("col1"));
+			list.add(EncounterFileRec);
+		}
+		
+		result.close();
+		ps.close();
+		theConnection.close();
+		return list;
+
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html  xmlns:p="http://primefaces.org/ui" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <!-- Title -->
   
@@ -803,7 +803,28 @@
 <div class="w-50 w-md-40">
                   
 <div class="mb-5">
-                    
+          
+          <table id="encounterDashDetails" class="table table-striped table-bordered " cellspacing="0" width="100%">
+                                <thead>
+                                  <tr>
+                                    <th>Details</th>
+                                    <th>Partner</th>
+                                   
+                                  </tr>
+                                </thead>
+                                <tbody>
+<p:repeat value="#{encounterExecuteController.getTest}" var="encounterRec">
+                                    <tr>
+                             
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.stopid}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.healthplancode}</td>
+                             
+                                  </tr>
+								  
+                                </p:repeat>           
+								</tbody>
+ </table>
+		   
 <h1 class="display-4">Grow faster</h1>
                     
 <p class="lead">Grow faster and succeed with Space.</p>
