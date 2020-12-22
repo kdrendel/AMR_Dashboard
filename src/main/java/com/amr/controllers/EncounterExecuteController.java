@@ -75,7 +75,7 @@ public class EncounterExecuteController implements Serializable {
 	private static Connection SOACon = null;
 	private String currentPartner = "X";
 	private Connection StatsCon = null;
-
+	private Connection theConnection  = null;
 	public String getCurrentPartner() {
 		return currentPartner;
 	}
