@@ -27,7 +27,7 @@ public class EncounterExecuteController implements Serializable {
 	private Connection theConnection  = null;
 
 
-	public List<EncounterValidationObject> getTest() throws Exception {
+	public List<EncounterValidationObject> gettest() throws Exception {
 
 
 		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
@@ -53,5 +53,4 @@ public class EncounterExecuteController implements Serializable {
 		return list;
 
 	}
-}
 }
