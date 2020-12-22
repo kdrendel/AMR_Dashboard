@@ -15,8 +15,6 @@ import com.amr.models.EncounterValidationObject;
 @ManagedBean
 @SessionScoped
 public class EncounterExecuteController implements Serializable {
-
-
 	public String userid = "Kdrendel";
 
 	public String getUserid() {
@@ -28,20 +26,7 @@ public class EncounterExecuteController implements Serializable {
 	}
 	private Connection theConnection  = null;
 
-public List<EncounterValidationObject> getTest2() throws Exception {
 
-
-		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
-		
-		//theConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-			EncounterValidationObject EncounterFileRec = new EncounterValidationObject();
-	
-		EncounterFileRec.setHealthPlancode("Test2");
-		EncounterFileRec.setStopid("beths");
-		list.add(EncounterFileRec);
-		return list;
-
-	}
 	public List<EncounterValidationObject> getTest() throws Exception {
 
 
@@ -68,4 +53,5 @@ public List<EncounterValidationObject> getTest2() throws Exception {
 		return list;
 
 	}
+}
 }
