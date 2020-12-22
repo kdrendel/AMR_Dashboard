@@ -72,19 +72,14 @@ public class EncounterExecuteController implements Serializable {
 	}
 	private Connection theConnection  = null;
 
-	
-	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-	private static final String DB_URL = "jdbc:mysql://mysqldbserverdrendel.mysql.database.azure.com:3306/alm";
-	private static final String DB_USER = "mysqldbuser@mysqldbserverdrendel";
-	private static final String DB_PASS = "P2ssw0rd@ds231";
-	
+
 		public List<EncounterValidationObject> getTest() throws Exception {
 
 
 		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
 		String conStr = System.getenv("MYSQLCONNSTR_MyShuttleDb");
-		//theConnection = DriverManager.getConnection(conStr);
-		theConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+		theConnection = DriverManager.getConnection(conStr);
+		//theConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
 		PreparedStatement ps = theConnection.prepareStatement( 
 				"Select col1,col2 from table1");
 
