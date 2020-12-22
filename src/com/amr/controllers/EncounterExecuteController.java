@@ -31,25 +31,12 @@ public class EncounterExecuteController implements Serializable {
 
 
 		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
-		String conStr = System.getenv("MYSQLCONNSTR_MyShuttleDb");
-		theConnection = DriverManager.getConnection(conStr);
-		//theConnection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-		PreparedStatement ps = theConnection.prepareStatement( 
-				"Select emp_id,driver_fee from fares");
-
-		ResultSet result = ps.executeQuery();
-
-		while (result.next()) {
-			EncounterValidationObject EncounterFileRec = new EncounterValidationObject();
-			
-			EncounterFileRec.setHealthPlancode(result.getString("emp_id"));
-			EncounterFileRec.setStopid(result.getString("driver_fee"));
-			list.add(EncounterFileRec);
-		}
+		EncounterValidationObject EncounterFileRec = new EncounterValidationObject();
 		
-		result.close();
-		ps.close();
-		theConnection.close();
+		EncounterFileRec.setHealthPlancode("TestXXXXXXXXXXXXXXXXXXX");
+		EncounterFileRec.setStopid("TestXXXXXXXXXXXXXXXXXXX");
+		list.add(EncounterFileRec);
+		
 		return list;
 
 	}
