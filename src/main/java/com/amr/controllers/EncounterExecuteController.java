@@ -788,11 +788,6 @@ public class EncounterExecuteController implements Serializable {
 	}
 		public List<EncounterValidationObject> getTest() throws Exception {
 
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-		params.get("logID");
-		String logID = params.get("logID");
-
 		List<EncounterValidationObject> list = new ArrayList<EncounterValidationObject>();
 		String conStr = System.getenv("MYSQLCONNSTR_MyShuttleDb");
 		theConnection = DriverManager.getConnection(conStr);
