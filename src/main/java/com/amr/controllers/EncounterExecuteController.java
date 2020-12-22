@@ -564,23 +564,7 @@ public class EncounterExecuteController implements Serializable {
 		// System.out.println("Out flagforretrieval");
 	}
 
-	@PostConstruct
-	public void reset() throws Exception {
-		try {
-			userid = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-			openSoaInfraConnection();
-			getBAMLogs();
-			getWSDLList();
-			getInstanceList();
-
-			closeSoaInfraConnection();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// or handle more gracefully
-		}
-
-	}
-
+	
 	public static void callEncounterUpdateProc() throws IOException {
 		callEncounterUpdateFileDataProc();
 		callEncounterUpdateDataProc();
