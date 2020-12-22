@@ -804,26 +804,7 @@
                   
 <div class="mb-5">
           
-          <table id="encounterDashDetails" class="table table-striped table-bordered " cellspacing="0" width="100%">
-                                <thead>
-                                  <tr>
-                                    <th>Details</th>
-                                    <th>Partner</th>
-                                   
-                                  </tr>
-                                </thead>
-                                <tbody>
-<p:repeat value="#{encounterExecuteController.getTest}" var="encounterRec">
-                                    <tr>
-                             
-                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.stopid}</td>
-                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.healthplancode}</td>
-                             
-                                  </tr>
-								  
-                                </p:repeat>           
-								</tbody>
- </table>
+         
 		   
 <h1 class="display-4">Grow faster</h1>
                     
@@ -1004,6 +985,41 @@
             
 <p class="mb-0">Manage document assembly with sophisticated yet super-light templates.</p>
           </div>
+		   <table id="encounterDashDetails" class="table table-striped table-bordered " cellspacing="0" width="100%">
+                                <thead>
+                                  <tr>
+                                    <th>Details</th>
+                                    <th>Partner</th>
+                                   
+                                  </tr>
+                                </thead>
+                                <tbody>
+								<p:repeat value="#{encounterExecuteController.getTest}" var="encounterRec">
+                                    <tr>
+                             
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.entityname}</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">#{encounterRec.batchDate}</td>
+                             
+                                  </tr>
+								  
+                                </p:repeat>    
+								     <tr>
+                             
+                                    <td style="text-align: center;width:65px;min-width:65px;">dcf,.sf.d,m</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">,mdslfmds.fm.sdfm,</td>
+									
+                             
+                                  </tr>
+								    <tr>
+                             
+                                    <td style="text-align: center;width:65px;min-width:65px;">klfmsdmfldsmflk</td>
+                                    <td style="text-align: center;width:65px;min-width:65px;">;ldfmdsl;fm,sd;flm;lsdmf;ldsm</td>
+									
+                             
+                                  </tr>
+								  
+								</tbody>
+ </table>
           <!-- End Icon Blocks -->
         </div>
         
